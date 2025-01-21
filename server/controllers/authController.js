@@ -3,38 +3,67 @@ const passport = require("../config/passport");
 const crypto = require("crypto");
 
 module.exports.redirectToRedditLogin = (req, res, next) => {
-  req.session.state = crypto.randomBytes(32).toString("hex");
+  if (req.isAuthenticated()) {
+    return res.redirect(config.frontURL);
+  }
+
+  const state =
+    config.env === "production"
+      ? crypto.randomBytes(32).toString("hex")
+      : undefined;
+
+  if (state) {
+    req.session.state = state;
+  }
 
   passport.authenticate("reddit", {
-    state: req.session.state,
+    state,
     duration: "permanent",
     scope: ["read", "identity"],
   })(req, res, next);
 };
 
 module.exports.handleLoginCallback = (req, res, next) => {
-  if (req.query.state !== req.session.state) {
-    console.error("State verification failed: Possible CSRF detected.");
-    return res.status(403).json({ message: "Forbidden" }); // !!!
+  if (config.env === "production" && req.query.state !== req.session.state) {
+    console.error(
+      `State verification failed. Query state: ${req.query.state}, Session state: ${req.session.state}`
+    );
+    delete req.session.state;
+    return res.status(403).json({ message: "Forbidden" });
   }
 
-  passport.authenticate("reddit", (err, user, info) => {
-    if (err) {
-      console.error("Authentication error:", err);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-
-    if (!user) {
-      console.error("Authentication failed:", info);
-      return res.redirect(`${config.frontURL}?error=authFailed`);
-    }
-
-    req.logIn(user, (err) => {
-      if (err) {
-        console.error("Login error:", err);
-        return res.status(500).json({ message: "Login failed" });
-      }
-      return res.redirect(config.frontURL);
-    });
+  passport.authenticate("reddit", {
+    successRedirect: config.frontURL,
+    failureRedirect: `${config.frontURL}?error=authFailed`,
   })(req, res, next);
+};
+
+module.exports.checkAuthStatus = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.json({
+      authenticated: true,
+      username: req.user.name,
+    });
+  } else {
+    res.json({ authenticated: false });
+  }
+};
+
+module.exports.logoutUser = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).send("Error when logging out");
+    }
+
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).send("Error destroying session:", err);
+      }
+
+      res.clearCookie("session");
+      return res
+        .status(200)
+        .json({ success: true, message: "User logged out successfully" });
+    });
+  });
 };

@@ -7,6 +7,10 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   accessToken: {
     type: String,
     required: true,

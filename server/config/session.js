@@ -13,11 +13,11 @@ module.exports = {
   name: "session",
   secret: config.secret,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     httpOnly: true,
     secure: config.env === "production",
-    sameSite: config.env === "production" ? "None" : "Lax",
+    sameSite: "Lax", // !!!
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
   },
 };
