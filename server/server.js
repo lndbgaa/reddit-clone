@@ -55,6 +55,10 @@ app.use((req, res, next) => {
       statusCode: 404,
       statusText: "Not Found",
       message: "The requested resource could not be found.",
+      details: {
+        path: req.originalUrl,
+        method: req.method,
+      },
     })
   );
 });

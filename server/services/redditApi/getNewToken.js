@@ -23,9 +23,7 @@ module.exports = async (refreshToken) => {
   const config = {
     headers: {
       "User-Agent": userAgent,
-      Authorization: `Basic ${Buffer.from(`${clientID}:${clientSecret}`).toString(
-        "base64"
-      )}`,
+      Authorization: `Basic ${Buffer.from(`${clientID}:${clientSecret}`).toString("base64")}`,
     },
   };
 
@@ -38,6 +36,7 @@ module.exports = async (refreshToken) => {
       refreshToken: response.data.refresh_token,
     };
   } catch (err) {
+    err.context = "Refreshing Token";
     throw err;
   }
 };
