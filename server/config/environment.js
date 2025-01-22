@@ -16,6 +16,7 @@ const config = {
       clientSecret: process.env.CLIENT_SECRET,
       userAgent: process.env.USER_AGENT,
       callbackURL: `${backURL}/api/auth/reddit/callback`,
+      baseUrl: "https://www.reddit.com/api/v1",
     },
   },
   production: {
@@ -29,6 +30,7 @@ const config = {
       clientSecret: process.env.CLIENT_SECRET,
       userAgent: process.env.USER_AGENT,
       callbackURL: `${backURL}/api/auth/reddit/callback`,
+      baseUrl: "https://www.reddit.com/api/v1",
     },
   },
   test: {
@@ -42,6 +44,7 @@ const config = {
       clientSecret: process.env.CLIENT_SECRET,
       userAgent: process.env.USER_AGENT,
       callbackURL: `${backURL}/api/auth/reddit/callback`,
+      baseUrl: "https://www.reddit.com/api/v1",
     },
   },
 };

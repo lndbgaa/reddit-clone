@@ -1,42 +1,50 @@
+const chalk = require("chalk");
 const AppError = require("../utils/AppError");
 
 module.exports = (err, req, res, next) => {
   if (err instanceof AppError) {
-    console.error(`❌ AppError: ${err.toString()}`);
-
-    return res.status(err.statusCode).json({
-      success: false,
-      message: err.message,
-      details: err.details || null,
-    });
+    console.error(chalk.red(`❌ AppError: ${err.toString()}`));
+    return res.status(err.statusCode).json(err.toJSON());
   }
 
   if (err.response) {
-    console.error("❌ Reddit API Response Error:", err.response);
+    const statusCode = err.response.status || 500;
+    const statusText = err.response.statusText || "Unknown Error";
+    const message = err.response?.data?.error?.message || "Reddit API Unknown error.";
+    const details = err.response?.data
+      ? JSON.stringify(err.response.data, null, 2)
+      : null;
 
-    const statusCode = err.response.status;
-    const errorMessage =
-      err.response?.data?.error?.message || "Reddit API error";
+    console.error(
+      chalk.red(
+        `❌ Reddit API Error: (${statusCode}) ${statusText}\nMessage: ${message}\n${
+          details ? `Details: ${details}\n` : ""
+        }`
+      )
+    );
 
     return res.status(statusCode).json({
       success: false,
-      message: errorMessage,
+      statusCode,
+      message,
+      details,
     });
   }
 
   if (err.request) {
-    console.error("❌ Request Error (Network or Timeout):", err.request);
-
+    console.error(chalk.red("❌ Request Error (Network or Timeout):", err.request));
     return res.status(503).json({
       success: false,
+      statusCode: 503,
       message: "Network error: Reddit API unavailable. Please try again later.",
     });
   }
 
-  console.error("❌ Unexpected Error:", err);
+  console.error(chalk.red("❌ Unexpected Error:", err));
 
   return res.status(500).json({
     success: false,
+    statusCode: 500,
     message: err.message || "An unexpected error occurred.",
   });
 };

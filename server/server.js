@@ -1,5 +1,4 @@
 require("dotenv").config();
-require("colors");
 
 const express = require("express");
 const cors = require("cors");
@@ -52,7 +51,11 @@ app.use("/api/auth/reddit", authRoutes);
 
 app.use((req, res, next) => {
   next(
-    new AppError("Not Found", 404, "The requested resource could not be found.")
+    new AppError({
+      statusCode: 404,
+      statusText: "Not Found",
+      message: "The requested resource could not be found.",
+    })
   );
 });
 

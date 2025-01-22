@@ -8,7 +8,7 @@ module.exports = new RedditStrategy(
     clientSecret: config.redditAPI.clientSecret,
     callbackURL: config.redditAPI.callbackURL,
   },
-  async function (accessToken, refreshToken, profile, done) {
+  async function (accessToken, refreshToken, expires_in, profile, done) {
     try {
       if (!profile.id) {
         return done(new Error("No profile ID received from Reddit"), null);
@@ -19,8 +19,9 @@ module.exports = new RedditStrategy(
       if (!user) {
         const newUser = new User({
           redditID: profile.id,
-          name: profile,
+          name: profile.name,
           accessToken,
+          accessTokenExpiration: Date.now() + expires_in.expires_in * 1000, // milliseconds
           refreshToken,
         });
 
