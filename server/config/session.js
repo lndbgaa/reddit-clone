@@ -1,5 +1,5 @@
 const MongoStore = require("connect-mongo");
-const config = require("../config/environment");
+const config = require("./config");
 
 module.exports = {
   store: MongoStore.create({
@@ -7,11 +7,11 @@ module.exports = {
     ttl: 7 * 24 * 60 * 60, // 7 days
     touchAfter: 24 * 60 * 60, // 24 hours
     crypto: {
-      secret: config.secret,
+      secret: config.secrets.storeSecret,
     },
   }),
   name: "session",
-  secret: config.secret,
+  secret: config.secrets.sessionSecret,
   resave: false,
   saveUninitialized: true,
   cookie: {

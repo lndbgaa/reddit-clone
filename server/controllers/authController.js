@@ -1,16 +1,13 @@
-const config = require("../config/environment");
+const config = require("../config/config");
 const passport = require("../config/passport");
 const crypto = require("crypto");
 
 module.exports.redirectToRedditLogin = (req, res, next) => {
   if (req.isAuthenticated()) {
-    return res.redirect(config.frontURL);
+    return res.redirect(config.clientUrl);
   }
 
-  const state =
-    config.env === "production"
-      ? crypto.randomBytes(32).toString("hex")
-      : undefined;
+  const state = config.env === "production" ? crypto.randomBytes(32).toString("hex") : undefined;
 
   if (state) {
     req.session.state = state;
@@ -33,8 +30,8 @@ module.exports.handleLoginCallback = (req, res, next) => {
   }
 
   passport.authenticate("reddit", {
-    successRedirect: config.frontURL,
-    failureRedirect: `${config.frontURL}?error=authFailed`,
+    successRedirect: config.clientUrl,
+    failureRedirect: `${config.clientUrl}?error=authFailed`,
   })(req, res, next);
 };
 
@@ -61,9 +58,7 @@ module.exports.logoutUser = (req, res, next) => {
       }
 
       res.clearCookie("session");
-      return res
-        .status(200)
-        .json({ success: true, message: "User logged out successfully" });
+      return res.status(200).json({ success: true, message: "User logged out successfully" });
     });
   });
 };

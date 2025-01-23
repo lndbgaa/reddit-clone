@@ -8,7 +8,7 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
 
-const config = require("./config/environment");
+const config = require("./config/config");
 const connectDB = require("./config/db");
 const sessionConfig = require("./config/session");
 
@@ -22,7 +22,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 const corsOptions = {
-  origin: config.frontURL,
+  origin: config.clientUrl,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -54,10 +54,12 @@ app.use((req, res, next) => {
     new AppError({
       statusCode: 404,
       statusText: "Not Found",
+      context: "Resource access attempt",
       message: "The requested resource could not be found.",
       details: {
         path: req.originalUrl,
         method: req.method,
+        timestamp: new Date().toISOString(),
       },
     })
   );

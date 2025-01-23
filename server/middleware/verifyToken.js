@@ -9,7 +9,8 @@ module.exports = catchAsync(async (req, res, next) => {
     throw new AppError({
       statusCode: 401,
       statusText: "Unauthorized",
-      message: "No user is authenticated",
+      context: "Token Validation",
+      message: "No user is authenticated, unable to verify token",
     });
   }
 
@@ -21,11 +22,33 @@ module.exports = catchAsync(async (req, res, next) => {
     return next();
   }
 
-  const data = await getNewToken(user.refreshToken);
+  const refreshToken = user.decryptRefreshToken();
+
+  if (!refreshToken) {
+    throw new AppError({
+      statusCode: 400,
+      statusText: "Bad Request",
+      context: "Token Refresh",
+      message: "Refresh token is missing or invalid.",
+    });
+  }
+
+  const data = await getNewToken(refreshToken);
+
+  if (!data || !data.accessToken) {
+    throw new AppError({
+      statusCode: 500,
+      statusText: "Internal Server Error",
+      context: "Token Refresh",
+      message: "Failed to retrieve new tokens from Reddit API",
+    });
+  }
 
   user.accessToken = data.accessToken;
   user.accessTokenExpiration = Date.now() + data.expiresIn * 1000; // milliseconds
-  user.refreshToken = data.refreshToken;
+  if (data.refreshToken) {
+    user.refreshToken = data.refreshToken;
+  }
 
   console.log("✅ User access token refreshed successfully!");
 

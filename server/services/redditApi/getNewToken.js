@@ -1,18 +1,9 @@
 const axios = require("axios");
-const config = require("../../config/environment");
-const AppError = require("../../utils/AppError");
+const config = require("../../config/config");
 
-const { baseUrl, userAgent, clientID, clientSecret } = config.redditAPI;
+const { baseUrl, userAgent, clientID, clientSecret } = config.redditApi;
 
 module.exports = async (refreshToken) => {
-  if (!refreshToken) {
-    throw new AppError({
-      statusCode: 400,
-      statusText: "Bad Request",
-      message: "Refresh token is required",
-    });
-  }
-
   const url = `${baseUrl}/access_token`;
 
   const data = new URLSearchParams({
@@ -30,13 +21,17 @@ module.exports = async (refreshToken) => {
   try {
     const response = await axios.post(url, data, config);
 
+    if (!response.data || !response.data.access_token) {
+      return null;
+    }
+
     return {
       accessToken: response.data.access_token,
       expiresIn: response.data.expires_in,
       refreshToken: response.data.refresh_token,
     };
   } catch (err) {
-    err.context = "Refreshing Token";
+    err.context = "Reddit API Token Refresh";
     throw err;
   }
 };

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const config = require("./environment");
+const config = require("./config");
 
 const connectDB = async () => {
   try {
