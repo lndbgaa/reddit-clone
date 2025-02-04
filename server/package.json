@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "build": "rimraf ./build && tsc",
-    "start": "node ./build/index.js",
+    "build": "rimraf ./dist && tsc",
+    "start": "node ./dist/index.js",
     "dev": "nodemon"
   },
   "type": "module",
