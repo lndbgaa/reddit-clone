@@ -1,7 +1,7 @@
+import getNewToken from "@services/redditApi/getNewToken";
+import AppError from "@utils/AppError";
+import catchAsync from "@utils/catchAsync";
 import { NextFunction, Request, Response } from "express";
-import getNewToken from "../services/redditApi/getNewToken.js";
-import AppError from "../utils/AppError.js";
-import catchAsync from "../utils/catchAsync.js";
 
 export default catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user;

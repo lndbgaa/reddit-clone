@@ -1,28 +1,15 @@
-import passportReddit from "passport-reddit";
-import User, { IUserDocument } from "../models/User.js";
-import AppError from "../utils/AppError.js";
-import config from "./config.js";
+import { RedditProfile, Strategy } from "passport-reddit";
+import User, { IUserDocument } from "../models/User";
+import AppError from "../utils/AppError";
+import config from "./config";
 
-const RedditStrategy = passportReddit.Strategy;
-
-interface RedditProfile {
-  id: string;
-  name: string;
-}
-
-export default new RedditStrategy(
+export default new Strategy(
   {
     clientID: config.redditApi.clientId,
     clientSecret: config.redditApi.clientSecret,
     callbackURL: config.redditApi.callbackUrl,
   },
-  async function (
-    accessToken: string,
-    refreshToken: string,
-    expires_in: { expires_in: number },
-    profile: RedditProfile,
-    done: (err: any, user?: IUserDocument | null) => void
-  ) {
+  async function (accessToken, refreshToken, expires_in, profile, done) {
     try {
       if (!accessToken || !refreshToken || !expires_in) {
         return done(
@@ -56,13 +43,13 @@ export default new RedditStrategy(
       }
 
       await updateUser(user, accessToken, refreshToken, expiresIn);
-      done(null, user);
+      return done(null, user);
     } catch (err: unknown) {
       if (err instanceof AppError) {
         err.context = "Reddit authentication strategy";
-        done(err, null);
+        return done(err, null);
       } else {
-        done(new Error("Unknown error occurred"), null);
+        return done(new Error("Unknown error occurred"), null);
       }
     }
   }

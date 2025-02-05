@@ -1,6 +1,6 @@
 import passport from "passport";
-import User, { IUserDocument } from "../models/User.js";
-import redditStrategy from "./redditStrategy.js";
+import User, { IUserDocument } from "../models/User";
+import redditStrategy from "./redditStrategy";
 
 passport.use(redditStrategy);
 

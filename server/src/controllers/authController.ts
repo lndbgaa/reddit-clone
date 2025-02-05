@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthenticateOptions } from "passport";
-import config from "../config/config.js";
-import passport from "../config/passport.js";
-import { IUserDocument } from "../models/User.js";
+import config from "../config/config";
+import passport from "../config/passport";
+import { IUserDocument } from "../models/User";
 
 interface RedditAuthenticateOptions extends AuthenticateOptions {
   //state: string;
@@ -11,7 +11,7 @@ interface RedditAuthenticateOptions extends AuthenticateOptions {
 
 export const redirectToRedditLogin = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
-    res.redirect(config.clientUrl);
+    return res.redirect(config.clientUrl);
   }
 
   //const state = config.env === "production" ? crypto.randomBytes(32).toString("hex") : undefined;
@@ -20,7 +20,7 @@ export const redirectToRedditLogin = (req: Request, res: Response, next: NextFun
     req.session.state = state;
   }*/
 
-  passport.authenticate("reddit", {
+  return passport.authenticate("reddit", {
     //state,
     duration: "permanent",
     scope: ["read", "identity"],
@@ -36,7 +36,7 @@ export const handleLoginCallback = (req: Request, res: Response, next: NextFunct
     return res.status(403).json({ message: "Forbidden" });
   }*/
 
-  passport.authenticate("reddit", {
+  return passport.authenticate("reddit", {
     successRedirect: config.clientUrl,
     failureRedirect: `${config.clientUrl}?error=authFailed`,
   } as RedditAuthenticateOptions)(req, res, next);

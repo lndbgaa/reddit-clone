@@ -7,7 +7,7 @@ import {
   handleLoginCallback,
   logoutUser,
   redirectToRedditLogin,
-} from "../controllers/authController.js";
+} from "../controllers/authController";
 
 router.get("/", redirectToRedditLogin);
 router.get("/callback", handleLoginCallback);

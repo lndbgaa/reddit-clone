@@ -9,15 +9,15 @@ import session from "express-session";
 import helmet from "helmet";
 import passport from "passport";
 
-import config from "./config/config.js";
-import { connectDB } from "./config/db.js";
-import sessionConfig from "./config/session.js";
+import config from "./config/config";
+import { connectDB } from "./config/db";
+import sessionConfig from "./config/session";
 
-import AppError from "./utils/AppError.js";
+import AppError from "./utils/AppError";
 
-import errorHandler from "./middleware/errorHandler.js";
+import errorHandler from "./middleware/errorHandler";
 
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from "./routes/authRoutes";
 
 import { CorsOptions } from "cors";
 
