@@ -1,5 +1,5 @@
+import config from "@config/config.js";
 import axios from "axios";
-import config from "../../config/config";
 
 const { baseUrl, userAgent, clientId, clientSecret } = config.redditApi;
 

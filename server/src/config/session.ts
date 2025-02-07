@@ -1,6 +1,6 @@
+import config from "@config/config.js";
 import MongoStore from "connect-mongo";
 import { SessionOptions } from "express-session";
-import config from "./config";
 
 const sessionConfig: SessionOptions = {
   name: "session",

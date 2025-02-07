@@ -1,7 +1,7 @@
+import config from "@config/config.js";
+import User, { IUserDocument } from "@models/User.js";
+import AppError from "@utils/AppError.js";
 import { RedditProfile, Strategy } from "passport-reddit";
-import User, { IUserDocument } from "../models/User";
-import AppError from "../utils/AppError";
-import config from "./config";
 
 export default new Strategy(
   {

@@ -1,7 +1,7 @@
+import config from "@config/config.js";
+import AppError from "@utils/AppError.js";
+import logError from "@utils/logError.js";
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import config from "../config/config";
-import AppError from "../utils/AppError";
-import logError from "../utils/logError";
 
 const errorHandler: ErrorRequestHandler = (
   err: Error | AppError | any,
@@ -9,7 +9,6 @@ const errorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err.message);
   if (err instanceof AppError) {
     const { statusCode, statusText, context, message, details, stack } = err;
 

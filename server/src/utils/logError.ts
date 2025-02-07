@@ -1,5 +1,5 @@
+import config from "@config/config.js";
 import chalk from "chalk";
-import config from "../config/config";
 
 interface LogErrorArgs {
   type: string;
@@ -7,7 +7,7 @@ interface LogErrorArgs {
   statusText: string;
   context?: string;
   message: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   stack?: string | null;
 }
 

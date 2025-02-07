@@ -1,6 +1,6 @@
+import config from "@config/config.js";
 import crypto from "crypto";
 import mongoose, { Document } from "mongoose";
-import config from "../config/config";
 
 const { Schema } = mongoose;
 

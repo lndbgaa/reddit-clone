@@ -23,12 +23,6 @@
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["./node_modules/@types", "./@types"]
   },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node",
-    "transpileOnly": true
-    //"logError": true
-  },
 
   "include": ["src/**/*", "@types/**/*"],
   "exclude": ["node_modules", "dist"]

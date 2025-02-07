@@ -2,7 +2,7 @@ class AppError extends Error {
   statusCode: number;
   statusText: string;
   context: string;
-  details: Record<string, any>;
+  details: Record<string, unknown>;
 
   constructor({
     statusCode = 500,

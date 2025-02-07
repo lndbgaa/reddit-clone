@@ -1,14 +1,14 @@
+import redditStrategy from "@config/redditStrategy.js";
+import User, { IUserDocument } from "@models/User.js";
 import passport from "passport";
-import User, { IUserDocument } from "../models/User";
-import redditStrategy from "./redditStrategy";
 
 passport.use(redditStrategy);
 
-passport.serializeUser((user: IUserDocument, done: (err: any, userId?: string) => void) => {
+passport.serializeUser((user: IUserDocument, done: (err: unknown, userId?: string) => void) => {
   done(null, user._id);
 });
 
-passport.deserializeUser(async (id: string, done: (err: any, user?: IUserDocument | null) => void) => {
+passport.deserializeUser(async (id: string, done: (err: unknown, user?: IUserDocument | null) => void) => {
   try {
     const user = await User.findById(id);
     if (user) {

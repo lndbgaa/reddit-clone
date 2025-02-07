@@ -1,8 +1,8 @@
+import config from "@config/config.js";
+import passport from "@config/passport.js";
+import { IUserDocument } from "@models/User.js";
 import { NextFunction, Request, Response } from "express";
 import { AuthenticateOptions } from "passport";
-import config from "../config/config";
-import passport from "../config/passport";
-import { IUserDocument } from "../models/User";
 
 interface RedditAuthenticateOptions extends AuthenticateOptions {
   //state: string;
@@ -55,7 +55,7 @@ export const checkAuthStatus = (req: Request, res: Response) => {
 };
 
 export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
-  req.logout((err: any) => {
+  req.logout((err: unknown) => {
     if (err) {
       res.status(500).send("Error when logging out");
     }

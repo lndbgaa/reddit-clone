@@ -1,6 +1,0 @@
-{
-  "watch": ["src"],
-  "ignore": ["dist"],
-  "ext": "ts",
-  "exec": "node --no-warnings=ExperimentalWarnings --loader ts-node/esm"
-}
