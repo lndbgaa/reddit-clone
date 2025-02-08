@@ -1,33 +1,34 @@
 import config from "@config/config.js";
+import AppError from "@utils/AppError.js";
 import axios from "axios";
 
-const { baseUrl, userAgent, clientId, clientSecret } = config.redditApi;
-
-interface ApiResponse {
-  data: {
-    access_token: string;
-    refresh_token: string;
-    expires_in: number;
-  };
-}
+const { userAgent, clientId, clientSecret } = config.redditApi;
 
 export default async (refreshToken: string) => {
-  const url = `${baseUrl}/access_token`;
+  if (!refreshToken) {
+    throw new AppError({
+      statusCode: 400,
+      statusText: "Bad Request",
+      context: "Token refresh",
+      message: "Refresh token is missing or invalid.",
+    });
+  }
 
-  const data = new URLSearchParams({
-    grant_type: "refresh_token",
-    refresh_token: refreshToken,
-  });
+  const url = "https://www.reddit.com/api/v1/access_token";
 
   const config = {
     headers: {
       "User-Agent": userAgent,
       Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
     },
+    params: {
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    },
   };
 
   try {
-    const response: ApiResponse = await axios.post(url, data, config);
+    const response = await axios.post(url, config);
 
     if (!response.data || !response.data.access_token) {
       return null;

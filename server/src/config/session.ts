@@ -4,6 +4,9 @@ import { SessionOptions } from "express-session";
 
 const sessionConfig: SessionOptions = {
   name: "session",
+  secret: config.secrets.sessionSecret,
+  resave: false,
+  saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: config.dbUri,
     ttl: 7 * 24 * 60 * 60, // 7 days
@@ -12,9 +15,6 @@ const sessionConfig: SessionOptions = {
       secret: config.secrets.storeSecret,
     },
   }),
-  secret: config.secrets.sessionSecret,
-  resave: false,
-  saveUninitialized: true,
   cookie: {
     httpOnly: true,
     secure: config.env === "production",

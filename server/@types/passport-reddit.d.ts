@@ -1,12 +1,14 @@
-import { IUserDocument } from "../src/models/User";
+import { IUserDocument } from "@models/User.js";
 
 declare module "passport-reddit" {
-  export interface RedditProfile {
+  export interface IRedditProfile {
     id: string;
     name: string;
+    link_karma: number;
+    comment_karma: number;
   }
 
-  interface RedditStrategyOptions {
+  interface IRedditStrategyOptions {
     clientID: string;
     clientSecret: string;
     callbackURL: string;
@@ -17,12 +19,12 @@ declare module "passport-reddit" {
     accessToken: string,
     refreshToken: string,
     expires_in: { expires_in: number },
-    profile: RedditProfile,
+    profile: IRedditProfile,
     done: (error: any, user?: IUserDocument | null) => void
   ) => void;
 
   export class Strategy {
-    constructor(options: RedditStrategyOptions, verify: VerifyFunction);
+    constructor(options: IRedditStrategyOptions, verify: VerifyFunction);
     authenticate(req: express.Request, options?: any): void;
   }
 }

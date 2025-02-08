@@ -6,11 +6,13 @@ const { Schema } = mongoose;
 
 export interface IUserDocument extends Document {
   _id: string;
-  redditId: string;
+  reddit_id: string;
   name: string;
-  accessToken: string;
-  refreshToken: string;
-  accessTokenExpiration: number;
+  link_karma: number;
+  comment_karma: number;
+  access_token: string;
+  refresh_token: string;
+  access_token_expiration: number;
 
   decryptAccessToken: () => string;
   decryptRefreshToken: () => string;
@@ -35,7 +37,7 @@ const decryptToken = (encryptedToken: string) => {
 };
 
 const userSchema = new Schema<IUserDocument>({
-  redditId: {
+  reddit_id: {
     type: String,
     required: true,
     unique: true,
@@ -45,16 +47,22 @@ const userSchema = new Schema<IUserDocument>({
     required: true,
     unique: true,
   },
-  accessToken: {
+  link_karma: {
+    type: Number,
+  },
+  comment_karma: {
+    type: Number,
+  },
+  access_token: {
     type: String,
     required: true,
     set: encryptToken,
   },
-  accessTokenExpiration: {
+  access_token_expiration: {
     type: Number,
     required: true,
   },
-  refreshToken: {
+  refresh_token: {
     type: String,
     required: true,
     set: encryptToken,
@@ -62,11 +70,11 @@ const userSchema = new Schema<IUserDocument>({
 });
 
 userSchema.methods.decryptAccessToken = function () {
-  return decryptToken(this.accessToken);
+  return decryptToken(this.access_token);
 };
 
 userSchema.methods.decryptRefreshToken = function () {
-  return decryptToken(this.refreshToken);
+  return decryptToken(this.refresh_token);
 };
 
 const User = mongoose.model<IUserDocument>("User", userSchema);

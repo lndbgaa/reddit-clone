@@ -1,7 +1,7 @@
 import config from "@config/config.js";
 import User, { IUserDocument } from "@models/User.js";
 import AppError from "@utils/AppError.js";
-import { RedditProfile, Strategy } from "passport-reddit";
+import { IRedditProfile, Strategy } from "passport-reddit";
 
 export default new Strategy(
   {
@@ -16,6 +16,7 @@ export default new Strategy(
           new AppError({
             statusCode: 401,
             statusText: "Unauthorized",
+            context: "Reddit auth strategy",
             message: "Missing or invalid tokens returned by Reddit.",
           }),
           null
@@ -27,6 +28,7 @@ export default new Strategy(
           new AppError({
             statusCode: 401,
             statusText: "Unauthorized",
+            context: "Reddit auth strategy",
             message: "Missing or invalid profile information returned by Reddit.",
           }),
           null
@@ -35,51 +37,64 @@ export default new Strategy(
 
       const expiresIn = expires_in.expires_in; // wtf Reddit?
 
-      const user = await User.findOne({ redditId: profile.id });
+      const user = await User.findOne({ reddit_id: profile.id });
 
       if (!user) {
         const newUser = await createUser(profile, accessToken, refreshToken, expiresIn);
         return done(null, newUser);
       }
 
-      await updateUser(user, accessToken, refreshToken, expiresIn);
+      await updateUser(user, profile, accessToken, refreshToken, expiresIn);
       return done(null, user);
     } catch (err: unknown) {
-      if (err instanceof AppError) {
-        err.context = "Reddit authentication strategy";
-        return done(err, null);
-      } else {
-        return done(new Error("Unknown error occurred"), null);
-      }
+      return done(new Error("Unknown error occurred"), null); // !!!
     }
   }
 );
 
 async function createUser(
-  profile: RedditProfile,
+  profile: IRedditProfile,
   accessToken: string,
   refreshToken: string,
   expiresIn: number
 ) {
   const newUser = new User({
-    redditId: profile.id,
+    reddit_id: profile.id,
     name: profile.name,
-    accessToken,
-    accessTokenExpiration: Date.now() + expiresIn * 1000, // milliseconds
-    refreshToken,
+    link_karma: profile.link_karma,
+    comment_karma: profile.comment_karma,
+    access_token: accessToken,
+    access_token_expiration: Date.now() + expiresIn * 1000, // milliseconds
+    refresh_token: refreshToken,
   });
 
   await newUser.save();
   return newUser;
 }
 
-async function updateUser(user: IUserDocument, accessToken: string, refreshToken: string, expiresIn: number) {
+async function updateUser(
+  user: IUserDocument,
+  profile: IRedditProfile,
+  accessToken: string,
+  refreshToken: string,
+  expiresIn: number
+) {
   let updated = false;
 
-  if (user.accessTokenExpiration <= Date.now() || user.refreshToken !== refreshToken) {
-    user.accessToken = accessToken;
-    user.accessTokenExpiration = Date.now() + expiresIn * 1000;
-    user.refreshToken = refreshToken;
+  if (user.link_karma !== profile.link_karma) {
+    user.link_karma = profile.link_karma;
+    updated = true;
+  }
+
+  if (user.comment_karma !== profile.comment_karma) {
+    user.comment_karma = profile.comment_karma;
+    updated = true;
+  }
+
+  if (user.access_token_expiration <= Date.now() || user.refresh_token !== refreshToken) {
+    user.access_token = accessToken;
+    user.access_token_expiration = Date.now() + expiresIn * 1000;
+    user.refresh_token = refreshToken;
     updated = true;
   }
 

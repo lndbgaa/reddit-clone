@@ -18,6 +18,8 @@ import AppError from "@utils/AppError.js";
 import errorHandler from "@middleware/errorHandler.js";
 
 import authRoutes from "@routes/authRoutes.js";
+import globalRoutes from "@routes/globalRoutes.js";
+import userRoutes from "@routes/userRoutes.js";
 
 import { CorsOptions } from "cors";
 
@@ -51,13 +53,15 @@ app.get("/api/csrf-token", csrfProtection, (req, res) => {
 });
 
 app.use("/api/auth/reddit", authRoutes);
+app.use("/api/reddit", globalRoutes);
+app.use("/api/reddit/user", userRoutes);
 
 app.use((req, res, next) => {
   next(
     new AppError({
       statusCode: 404,
       statusText: "Not Found",
-      context: "Resource access", // !!
+      context: "Resource access",
       message: "The requested resource could not be found.",
       details: {
         path: req.originalUrl,
