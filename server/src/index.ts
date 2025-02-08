@@ -57,12 +57,11 @@ app.use((req, res, next) => {
     new AppError({
       statusCode: 404,
       statusText: "Not Found",
-      context: "Resource access",
+      context: "Resource access", // !!
       message: "The requested resource could not be found.",
       details: {
         path: req.originalUrl,
         method: req.method,
-        timestamp: new Date().toISOString(),
       },
     })
   );

@@ -39,6 +39,7 @@ export default async (refreshToken: string) => {
       refreshToken: response.data.refresh_token,
     };
   } catch (err) {
+    console.error("Error getting new token from Reddit API");
     throw err;
   }
 };

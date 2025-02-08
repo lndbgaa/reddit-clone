@@ -6,7 +6,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     throw new AppError({
       statusCode: 401,
       statusText: "Unauthorized",
-      context: "Resource access attempt",
+      context: "Resource access",
       message: "User must be logged in to access this resource.",
       details: {
         url: req.originalUrl,

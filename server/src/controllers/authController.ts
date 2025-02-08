@@ -1,6 +1,8 @@
 import config from "@config/config.js";
 import passport from "@config/passport.js";
+import sessionConfig from "@config/session";
 import { IUserDocument } from "@models/User.js";
+import AppError from "@utils/AppError";
 import { NextFunction, Request, Response } from "express";
 import { AuthenticateOptions } from "passport";
 
@@ -38,7 +40,7 @@ export const handleLoginCallback = (req: Request, res: Response, next: NextFunct
 
   return passport.authenticate("reddit", {
     successRedirect: config.clientUrl,
-    failureRedirect: `${config.clientUrl}?error=authFailed`,
+    failureRedirect: `${config.clientUrl}?message=authFailed`, // !!!
   } as RedditAuthenticateOptions)(req, res, next);
 };
 
@@ -55,18 +57,33 @@ export const checkAuthStatus = (req: Request, res: Response) => {
 };
 
 export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
+  const user = req.user;
+
+  if (!user) {
+    return next(
+      new AppError({
+        statusCode: 401,
+        statusText: "Unauthorized",
+        context: "Logging out",
+        message: "No user is logged in.",
+      })
+    );
+  }
+
   req.logout((err: unknown) => {
     if (err) {
-      res.status(500).send("Error when logging out");
+      console.error("Error logging out:", err);
+      return next(err);
     }
 
     req.session.destroy((err) => {
       if (err) {
-        res.status(500).json({ success: false, message: "Error destroying session" });
+        console.error("Error destroying session:", err);
+        return next(err);
       }
 
-      res.clearCookie("session");
-      res.status(200).json({ success: true, message: "User logged out successfully" });
+      res.clearCookie(sessionConfig.name || "connect.sid");
+      return res.redirect(config.clientUrl); // !!!
     });
   });
 };

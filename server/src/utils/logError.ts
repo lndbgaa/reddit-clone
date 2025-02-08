@@ -16,7 +16,7 @@ export default ({
   statusCode,
   statusText,
   context = undefined,
-  message,
+  message = "Unknown Error",
   details = {},
   stack = null,
 }: LogErrorArgs) => {

@@ -6,13 +6,13 @@ class AppError extends Error {
 
   constructor({
     statusCode = 500,
-    statusText = "Unknown Error",
+    statusText = "Internal Server Error",
     context = "Unknown",
-    message = "Internal Server Error",
+    message = "Unknown Error",
     details = {},
   }) {
     super(message);
-    this.name = this.constructor.name;
+    this.name = "AppError";
     this.statusCode = statusCode;
     this.statusText = statusText;
     this.context = context;
