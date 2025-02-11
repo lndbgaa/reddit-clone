@@ -1,7 +1,7 @@
-import config from "@config/config.js";
-import passport from "@config/passport.js";
-import sessionConfig from "@config/session.js";
-import AppError from "@utils/AppError.js";
+import config from "@/config/config.js";
+import passport from "@/config/passport.js";
+import sessionConfig from "@/config/session.js";
+import AppError from "@/utils/AppError.js";
 import { NextFunction, Request, Response } from "express";
 import { AuthenticateOptions } from "passport";
 

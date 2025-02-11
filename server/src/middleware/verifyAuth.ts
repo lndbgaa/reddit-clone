@@ -1,4 +1,4 @@
-import AppError from "@utils/AppError.js";
+import AppError from "@/utils/AppError.js";
 import { NextFunction, Request, Response } from "express";
 
 export default (req: Request, res: Response, next: NextFunction) => {

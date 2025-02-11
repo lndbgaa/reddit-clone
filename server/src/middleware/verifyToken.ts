@@ -1,6 +1,6 @@
-import getNewToken from "@services/redditApi/getNewTokenService.js";
-import AppError from "@utils/AppError.js";
-import catchAsync from "@utils/catchAsync.js";
+import getNewToken from "@/services/redditApi/getNewTokenService.js";
+import AppError from "@/utils/AppError.js";
+import catchAsync from "@/utils/catchAsync.js";
 import { NextFunction, Request, Response } from "express";
 
 export default catchAsync(async (req: Request, res: Response, next: NextFunction) => {

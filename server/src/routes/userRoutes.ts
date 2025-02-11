@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { getUserInfo } from "@controllers/userController.js";
+import { getUserInfo } from "@/controllers/userController.js";
 
 router.get("/me", getUserInfo);
 

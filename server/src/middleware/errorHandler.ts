@@ -1,6 +1,6 @@
-import config from "@config/config.js";
-import AppError from "@utils/AppError.js";
-import logError from "@utils/logError.js";
+import config from "@/config/config.js";
+import AppError from "@/utils/AppError.js";
+import logError from "@/utils/logError.js";
 import { AxiosError } from "axios";
 
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";

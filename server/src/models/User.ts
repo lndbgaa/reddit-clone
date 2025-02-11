@@ -1,4 +1,4 @@
-import config from "@config/config.js";
+import config from "@/config/config.js";
 import crypto from "crypto";
 import mongoose, { Document } from "mongoose";
 

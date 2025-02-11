@@ -9,17 +9,17 @@ import session from "express-session";
 import helmet from "helmet";
 import passport from "passport";
 
-import config from "@config/config.js";
-import { connectDB } from "@config/db.js";
-import sessionConfig from "@config/session.js";
+import config from "@/config/config.js";
+import { connectDB } from "@/config/db.js";
+import sessionConfig from "@/config/session.js";
 
-import AppError from "@utils/AppError.js";
+import AppError from "@/utils/AppError.js";
 
-import errorHandler from "@middleware/errorHandler.js";
+import errorHandler from "@/middleware/errorHandler.js";
 
-import authRoutes from "@routes/authRoutes.js";
-import globalRoutes from "@routes/globalRoutes.js";
-import userRoutes from "@routes/userRoutes.js";
+import authRoutes from "@/routes/authRoutes.js";
+import globalRoutes from "@/routes/globalRoutes.js";
+import userRoutes from "@/routes/userRoutes.js";
 
 import { CorsOptions } from "cors";
 
@@ -52,9 +52,9 @@ app.get("/api/csrf-token", csrfProtection, (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 
-app.use("/api/auth/reddit", authRoutes);
-app.use("/api/reddit", globalRoutes);
-app.use("/api/reddit/user", userRoutes);
+app.use("/api/v1/auth/reddit", authRoutes);
+app.use("/api/v1/reddit", globalRoutes);
+app.use("/api/v1/reddit/user", userRoutes);
 
 app.use((req, res, next) => {
   next(

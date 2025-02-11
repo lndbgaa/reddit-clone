@@ -1,5 +1,5 @@
-import redditStrategy from "@config/redditStrategy.js";
-import User, { IUserDocument } from "@models/User.js";
+import redditStrategy from "@/config/redditStrategy.js";
+import User, { IUserDocument } from "@/models/User.js";
 import passport from "passport";
 
 passport.use(redditStrategy);
