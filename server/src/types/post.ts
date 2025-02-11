@@ -1,4 +1,5 @@
 export interface IPost {
+  id: string;
   subreddit: {
     id: string;
     name: string;
@@ -11,7 +12,7 @@ export interface IPost {
     num: number;
   };
   content: {
-    hint: string;
+    type: string;
     isVideo: boolean;
     text: string;
     url: string;

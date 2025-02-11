@@ -7,15 +7,14 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 const errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
-    const { statusCode, statusText, context, message, details, stack } = err;
+    const { statusCode, statusText, message, details, stack } = err;
 
-    logError({ type: "AppError", statusCode, statusText, context, message, details, stack });
+    logError({ type: "AppError", statusCode, statusText, message, details, stack });
 
     res.status(statusCode).json({
       success: false,
       statusCode,
       statusText,
-      context,
       message,
       details: config.env === "development" ? details : {},
     });

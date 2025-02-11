@@ -16,7 +16,6 @@ export default new Strategy(
           new AppError({
             statusCode: 401,
             statusText: "Unauthorized",
-            context: "Reddit auth strategy",
             message: "Missing or invalid tokens returned by Reddit.",
           }),
           null
@@ -28,7 +27,6 @@ export default new Strategy(
           new AppError({
             statusCode: 401,
             statusText: "Unauthorized",
-            context: "Reddit auth strategy",
             message: "Missing or invalid profile information returned by Reddit.",
           }),
           null

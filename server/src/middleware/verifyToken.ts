@@ -10,7 +10,6 @@ export default catchAsync(async (req: Request, res: Response, next: NextFunction
     throw new AppError({
       statusCode: 401,
       statusText: "Unauthorized",
-      context: "Token validation",
       message: "No user is authenticated, unable to verify token",
     });
   }
@@ -29,7 +28,6 @@ export default catchAsync(async (req: Request, res: Response, next: NextFunction
     throw new AppError({
       statusCode: 400,
       statusText: "Bad Request",
-      context: "Token refresh",
       message: "Refresh token is missing or invalid.",
     });
   }
@@ -38,7 +36,6 @@ export default catchAsync(async (req: Request, res: Response, next: NextFunction
 
   if (!data) {
     throw new AppError({
-      context: "Token refresh",
       message: "Failed to retrieve new tokens from Reddit API",
     });
   }

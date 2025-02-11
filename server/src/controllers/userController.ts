@@ -13,7 +13,6 @@ export const getUserInfo = (req: Request, res: Response, next: NextFunction) => 
       new AppError({
         statusCode: 401,
         statusText: "Unauthorized",
-        context: "UserInfo retrieval",
         message: "No user is logged in.",
       })
     );

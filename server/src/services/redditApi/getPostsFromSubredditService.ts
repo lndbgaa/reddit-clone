@@ -1,25 +1,9 @@
 import config from "@/config/config.js";
-import { IPost } from "@/types/post.js";
+import { IPost } from "@/types/Post.js";
+import formatPost, { IApiPostData } from "@/utils/formatPost.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = config.redditApi;
-
-interface IApiPostData {
-  data: {
-    subreddit_id: string;
-    subreddit: string;
-    title: string;
-    author: string;
-    created: number;
-    post_hint?: string;
-    selftext: string;
-    ups: number;
-    url: string;
-    thumbnail: string;
-    num_comments: number;
-    is_video: boolean;
-  };
-}
 
 interface IApiResponse {
   data: {
@@ -37,34 +21,13 @@ export default async (accessToken: string, name: string): Promise<IPost[]> => {
     },
     params: {
       t: "day",
-      limit: 30,
+      limit: 7, // !!!
     },
   });
 
-  if (!response.data?.data?.children) {
+  if (!response.data?.data?.children || response.data.data.children.length === 0) {
     return [];
   }
 
-  return response.data.data.children.map((post: IApiPostData): IPost => {
-    return {
-      subreddit: {
-        id: post.data.subreddit_id,
-        name: post.data.subreddit,
-      },
-      title: post.data.title,
-      author: post.data.author,
-      created: post.data.created,
-      ups: post.data.ups,
-      content: {
-        hint: post.data.post_hint || "",
-        isVideo: post.data.is_video,
-        text: post.data.selftext,
-        url: post.data.url,
-        thumbnail: post.data.thumbnail, // !!!
-      },
-      comments: {
-        num: post.data.num_comments, // !!!
-      },
-    };
-  });
+  return response.data.data.children.map((post: IApiPostData) => formatPost(post));
 };

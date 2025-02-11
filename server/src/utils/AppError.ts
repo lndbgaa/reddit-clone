@@ -1,13 +1,11 @@
 class AppError extends Error {
   statusCode: number;
   statusText: string;
-  context: string;
   details: Record<string, unknown>;
 
   constructor({
     statusCode = 500,
     statusText = "Internal Server Error",
-    context = "Unknown",
     message = "Unknown Error",
     details = {},
   }) {
@@ -15,7 +13,6 @@ class AppError extends Error {
     this.name = "AppError";
     this.statusCode = statusCode;
     this.statusText = statusText;
-    this.context = context;
     this.details = details;
     Error.captureStackTrace(this, this.constructor);
   }

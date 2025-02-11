@@ -1,18 +1,9 @@
 import config from "@/config/config.js";
-import { ISubreddit } from "@/types/subreddit.js";
+import { ISubreddit } from "@/types/Subreddit.js";
+import formatSubreddit, { IApiSubredditData } from "@/utils/formatSubreddit.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = config.redditApi;
-
-interface IApiSubredditData {
-  data: {
-    id: string;
-    display_name: string;
-    created: number;
-    icon_img: string;
-    subscribers: number;
-  };
-}
 
 interface IApiResponse {
   data: {
@@ -29,21 +20,13 @@ export default async (accessToken: string): Promise<ISubreddit[]> => {
       "User-Agent": userAgent,
     },
     params: {
-      limit: 30,
+      limit: 7,
     },
   });
 
-  if (!response.data?.data?.children) {
+  if (!response.data?.data?.children || response.data.data.children.length === 0) {
     return [];
   }
 
-  return response.data.data.children.map((subreddit: IApiSubredditData): ISubreddit => {
-    return {
-      id: subreddit.data.id,
-      name: subreddit.data.display_name,
-      created: subreddit.data.created,
-      icon: subreddit.data.icon_img,
-      subscribers: subreddit.data.subscribers,
-    };
-  });
+  return response.data.data.children.map((subreddit) => formatSubreddit(subreddit));
 };

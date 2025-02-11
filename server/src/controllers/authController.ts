@@ -86,7 +86,6 @@ export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
       new AppError({
         statusCode: 401,
         statusText: "Unauthorized",
-        context: "Logging out",
         message: "No user is logged in.",
       })
     );
