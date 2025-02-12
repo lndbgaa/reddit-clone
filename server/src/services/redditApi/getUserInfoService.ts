@@ -1,16 +1,16 @@
 import config from "@/config/config.js";
-import { ISubreddit } from "@/types/Subreddit.js";
-import formatSubreddit, { IApiSubredditData } from "@/utils/formatSubreddit.js";
+import { IUser } from "@/types/User.js";
+import formatUser, { IApiUserData } from "@/utils/formatUser.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = config.redditApi;
 
 interface IApiResponse {
-  data: IApiSubredditData;
+  data: IApiUserData;
 }
 
-export default async (accessToken: string, name: string): Promise<ISubreddit | null> => {
-  const url = `${baseUrl}/r/${name}/about`;
+export default async (accessToken: string, username: string): Promise<IUser | null> => {
+  const url = `${baseUrl}/user/${username}/about`;
 
   const response = await axios.get<IApiResponse>(url, {
     headers: {
@@ -23,5 +23,5 @@ export default async (accessToken: string, name: string): Promise<ISubreddit | n
     return null;
   }
 
-  return formatSubreddit(response.data.data);
+  return formatUser(response.data.data);
 };

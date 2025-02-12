@@ -7,7 +7,7 @@ const { baseUrl, userAgent } = config.redditApi;
 
 interface IApiResponse {
   data: {
-    children: IApiPostData[];
+    children: { data: IApiPostData }[];
   };
 }
 
@@ -29,5 +29,5 @@ export default async (accessToken: string, q: string): Promise<IPost[]> => {
     return [];
   }
 
-  return response.data.data.children.map((post: IApiPostData) => formatPost(post));
+  return response.data.data.children.map((post: { data: IApiPostData }) => formatPost(post.data));
 };

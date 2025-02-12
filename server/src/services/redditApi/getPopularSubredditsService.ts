@@ -7,7 +7,9 @@ const { baseUrl, userAgent } = config.redditApi;
 
 interface IApiResponse {
   data: {
-    children: IApiSubredditData[];
+    children: {
+      data: IApiSubredditData;
+    }[];
   };
 }
 
@@ -28,5 +30,7 @@ export default async (accessToken: string): Promise<ISubreddit[]> => {
     return [];
   }
 
-  return response.data.data.children.map((subreddit) => formatSubreddit(subreddit));
+  return response.data.data.children.map((subreddit: { data: IApiSubredditData }) =>
+    formatSubreddit(subreddit.data)
+  );
 };

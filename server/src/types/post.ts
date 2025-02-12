@@ -7,13 +7,11 @@ export interface IPost {
   title: string;
   author: string;
   created: number;
-  ups: number;
-  comments: {
-    num: number;
-  };
+  score: number;
+  num_comments: number;
   content: {
     type: string;
-    isVideo: boolean;
+    is_video: boolean;
     text: string;
     url: string;
     thumbnail: string;

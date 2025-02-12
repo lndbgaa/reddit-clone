@@ -14,7 +14,6 @@ export interface ISubreddit {
   stats: {
     subscribers: number;
   };
-  category: string;
   type: string;
   lang: string;
   over18: boolean;

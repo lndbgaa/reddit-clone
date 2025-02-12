@@ -18,7 +18,8 @@ import AppError from "@/utils/AppError.js";
 import errorHandler from "@/middleware/errorHandler.js";
 
 import authRoutes from "@/routes/authRoutes.js";
-import globalRoutes from "@/routes/globalRoutes.js";
+import postsRoutes from "@/routes/postsRoutes.js";
+import subredditsRoutes from "@/routes/subredditsRoutes.js";
 import userRoutes from "@/routes/userRoutes.js";
 
 import { CorsOptions } from "cors";
@@ -53,7 +54,8 @@ app.get("/api/csrf-token", csrfProtection, (req, res) => {
 });
 
 app.use("/api/v1/auth/reddit", authRoutes);
-app.use("/api/v1/reddit", globalRoutes);
+app.use("/api/v1/reddit/subreddits", subredditsRoutes);
+app.use("/api/v1/reddit/posts", postsRoutes);
 app.use("/api/v1/reddit/user", userRoutes);
 
 app.use((req, res, next) => {

@@ -1,21 +1,18 @@
 import { ISubreddit } from "@/types/Subreddit.js";
 
 export interface IApiSubredditData {
-  data: {
-    id: string;
-    display_name: string;
-    title: string;
-    created: number;
-    public_description: string;
-    icon_img: string;
-    banner_img: string;
-    primary_color: string;
-    subscribers: number;
-    advertiser_category: string;
-    subreddit_type: string;
-    lang: string;
-    over18: boolean;
-  };
+  id: string;
+  display_name: string;
+  title: string;
+  created: number;
+  public_description: string;
+  icon_img: string;
+  banner_img: string;
+  primary_color: string;
+  subscribers: number;
+  subreddit_type: string;
+  lang: string;
+  over18: boolean;
 }
 
 export default (subreddit: IApiSubredditData): ISubreddit => {
@@ -29,11 +26,10 @@ export default (subreddit: IApiSubredditData): ISubreddit => {
     banner_img,
     primary_color,
     subscribers,
-    advertiser_category,
     subreddit_type,
     lang,
     over18,
-  } = subreddit.data;
+  } = subreddit;
 
   return {
     id,
@@ -49,9 +45,8 @@ export default (subreddit: IApiSubredditData): ISubreddit => {
       color: primary_color,
     },
     stats: {
-      subscribers, // !!!
+      subscribers,
     },
-    category: advertiser_category,
     type: subreddit_type,
     lang,
     over18,

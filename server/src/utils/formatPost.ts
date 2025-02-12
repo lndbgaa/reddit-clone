@@ -2,21 +2,19 @@ import { IPost } from "@/types/Post.js";
 import { isValidUrl } from "@/utils/helpers.js";
 
 export interface IApiPostData {
-  data: {
-    id: string;
-    subreddit_id: string;
-    subreddit: string;
-    title: string;
-    author: string;
-    created: number;
-    post_hint?: string;
-    selftext: string;
-    ups: number;
-    url: string;
-    thumbnail: string;
-    num_comments: number;
-    is_video: boolean;
-  };
+  id: string;
+  subreddit_id: string;
+  subreddit: string;
+  title: string;
+  author: string;
+  created: number;
+  post_hint?: string;
+  selftext: string;
+  score: number;
+  url: string;
+  thumbnail: string;
+  num_comments: number;
+  is_video: boolean;
 }
 
 export default (post: IApiPostData): IPost => {
@@ -27,14 +25,14 @@ export default (post: IApiPostData): IPost => {
     title,
     author,
     created,
-    ups,
+    score,
     post_hint,
     is_video,
     selftext,
     url,
     thumbnail,
     num_comments,
-  } = post.data;
+  } = post;
 
   return {
     id,
@@ -45,16 +43,14 @@ export default (post: IApiPostData): IPost => {
     title,
     author,
     created,
-    ups,
+    score,
     content: {
       type: post_hint || "text",
-      isVideo: is_video,
+      is_video: is_video,
       text: selftext,
       url,
       thumbnail: isValidUrl(thumbnail) ? thumbnail : "", // !!!
     },
-    comments: {
-      num: num_comments, // !!!
-    },
+    num_comments,
   };
 };
