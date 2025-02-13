@@ -21,6 +21,7 @@ import authRoutes from "@/routes/authRoutes.js";
 import postsRoutes from "@/routes/postsRoutes.js";
 import subredditsRoutes from "@/routes/subredditsRoutes.js";
 import usersRoutes from "@/routes/usersRoutes.js";
+import votesRoutes from "@/routes/votesRoutes.js";
 
 import { CorsOptions } from "cors";
 
@@ -58,6 +59,7 @@ app.use("/api/v1/auth/reddit", authRoutes);
 app.use("/api/v1/reddit/subreddits", subredditsRoutes);
 app.use("/api/v1/reddit/posts", postsRoutes);
 app.use("/api/v1/reddit/users", usersRoutes);
+app.use("/api/v1/reddit", votesRoutes);
 
 app.use((req, res, next) => {
   next(

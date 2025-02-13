@@ -3,13 +3,18 @@ import axios from "axios";
 
 const { baseUrl, userAgent } = config.redditApi;
 
-export default async (accessToken: string, postId: string, voteDirection: "1" | "-1" | "0") => {
+export default async (accessToken: string, id: string, type: string, voteDirection: "1" | "-1" | "0") => {
   const url = `${baseUrl}/api/vote`;
 
-  const response = await axios.post(
+  const prefix = {
+    posts: "t3_",
+    comments: "t1_",
+  };
+
+  await axios.post(
     url,
     new URLSearchParams({
-      id: `t3_${postId}`,
+      id: `${prefix[type as "posts" | "comments"]}${id}`,
       dir: voteDirection,
     }),
     {
@@ -20,6 +25,4 @@ export default async (accessToken: string, postId: string, voteDirection: "1" | 
       },
     }
   );
-
-  return null;
 };
