@@ -1,15 +1,16 @@
 import { IUserDocument } from "@/models/User.js";
-import getMyInfoService from "@/services/redditApi/getMyInfoService";
-import getUserInfoService from "@/services/redditApi/getUserInfoService";
+import getMyInfoService from "@/services/redditApi/getMyInfoService.js";
+import getUserInfoService from "@/services/redditApi/getUserInfoService.js";
+import { IUser } from "@/types/User.js";
 import AppError from "@/utils/AppError.js";
-import catchAsync from "@/utils/catchAsync";
+import catchAsync from "@/utils/catchAsync.js";
 import { NextFunction, Request, Response } from "express";
 
 export const getMyInfo = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as IUserDocument;
   const accessToken = user.decryptAccessToken();
 
-  const data = await getMyInfoService(accessToken);
+  const data: IUser | null = await getMyInfoService(accessToken);
 
   if (!data || !data.username) {
     throw new AppError({
@@ -36,7 +37,7 @@ export const getUserInfo = catchAsync(async (req: Request, res: Response, next: 
     });
   }
 
-  const data = await getUserInfoService(accessToken, username);
+  const data: IUser | null = await getUserInfoService(accessToken, username);
 
   if (!data || !data.username) {
     throw new AppError({

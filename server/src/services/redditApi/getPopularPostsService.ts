@@ -21,7 +21,7 @@ export default async (accessToken: string): Promise<IPost[]> => {
     },
     params: {
       g: "GLOBAL",
-      limit: 7, // !!!
+      limit: 70,
     },
   });
 

@@ -1,16 +1,17 @@
+import verifyAuth from "@/middleware/verifyAuth.js";
 import verifyToken from "@/middleware/verifyToken.js";
 import express from "express";
 
 import {
   getPopularSubreddits,
-  getPostsFromSubreddit,
   getSubredditInfo,
+  getSubredditPopularPosts,
 } from "@/controllers/subredditsController.js";
 
 const router = express.Router();
 
-router.get("/popular", verifyToken, getPopularSubreddits);
-router.get("/:name/info", verifyToken, getSubredditInfo);
-router.get("/:name/posts/popular", verifyToken, getPostsFromSubreddit);
+router.get("/popular", verifyAuth, verifyToken, getPopularSubreddits);
+router.get("/:name/info", verifyAuth, verifyToken, getSubredditInfo);
+router.get("/:name/posts/popular", verifyAuth, verifyToken, getSubredditPopularPosts);
 
 export default router;

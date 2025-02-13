@@ -20,7 +20,7 @@ export const redirectToRedditLogin = (req: Request, res: Response, next: NextFun
   return passport.authenticate("reddit", {
     //state: req.session.state,
     duration: "permanent",
-    scope: ["read", "identity"],
+    scope: ["read", "identity", "vote"],
   } as RedditAuthenticateOptions)(req, res, next);
 };
 
@@ -31,7 +31,6 @@ export const handleLoginCallback = (req: Request, res: Response, next: NextFunct
       new AppError({
         statusCode: 403,
         statusText: "Forbidden",
-        context: "Logging in to Reddit",
         message: "State verification failed",
         details: {
           "query state": req.query.state,
@@ -39,9 +38,8 @@ export const handleLoginCallback = (req: Request, res: Response, next: NextFunct
         },
       })
     );
-  } 
-
-  passport.authenticate("reddit", (err: any, user: any, info: any) => {
+  } */
+  /* passport.authenticate("reddit", (err: any, user: any, info: any) => {
     if (err) {
       console.log("Authentication error with Reddit: ", err);
     }
@@ -105,7 +103,8 @@ export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
         }
 
         res.clearCookie(sessionConfig.name || "connect.sid");
-        res.redirect(config.clientUrl); // !!!
+        res.status(200).json({ success: true, message: "User logged out successfully!" });
+        //res.redirect(config.clientUrl); // !!!
       });
     });
   }

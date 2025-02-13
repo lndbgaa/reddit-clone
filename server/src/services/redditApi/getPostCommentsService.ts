@@ -1,5 +1,5 @@
 import config from "@/config/config.js";
-import { IComment } from "@/types/Comment";
+import { IComment } from "@/types/Comment.js";
 import formatComments, { IApiCommentData } from "@/utils/formatComments.js";
 import axios from "axios";
 
@@ -11,8 +11,8 @@ interface IApiResponse {
   };
 }
 
-export default async (accessToken: string, id: string): Promise<IComment[]> => {
-  const url = `${baseUrl}/comments/${id}`;
+export default async (accessToken: string, postId: string): Promise<IComment[]> => {
+  const url = `${baseUrl}/comments/${postId}`;
 
   const response = await axios.get<IApiResponse>(url, {
     headers: {

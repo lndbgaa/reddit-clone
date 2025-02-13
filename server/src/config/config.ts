@@ -15,7 +15,7 @@ const config = {
     clientId: process.env.REDDIT_API_CLIENT_ID as string,
     clientSecret: process.env.REDDIT_API_CLIENT_SECRET as string,
     userAgent: process.env.REDDIT_API_USER_AGENT as string,
-    callbackUrl: `${process.env.SERVER_URL}/api/auth/reddit/callback`,
+    callbackUrl: `${process.env.SERVER_URL}/api/v1/auth/reddit/callback`,
     baseUrl: "https://oauth.reddit.com",
   },
 };

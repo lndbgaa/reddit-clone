@@ -28,7 +28,6 @@ const errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response
       const details = {
         url: err.config?.url || "Unknown",
         method: err.config?.method ? err.config?.method.toUpperCase() : "Unknown",
-        params: err.config?.params || "No params",
       };
 
       logError({ type: "External Service Response Error", statusCode, statusText, message, details, stack });

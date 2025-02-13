@@ -21,7 +21,7 @@ export default async (accessToken: string, name: string): Promise<IPost[]> => {
     },
     params: {
       t: "day",
-      limit: 7, // !!!
+      limit: 70,
     },
   });
 

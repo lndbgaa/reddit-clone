@@ -22,7 +22,7 @@ export default (user: IApiUserData): IUser => {
     link_karma,
     comment_karma,
     created,
-    avatar: snoovatar_img || "",
+    avatar: snoovatar_img || "", // !!!
     bio: public_description || "",
   };
 };
