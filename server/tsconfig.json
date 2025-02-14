@@ -9,6 +9,8 @@
     "paths": {
       "@/config/*": ["src/config/*"],
       "@/controllers/*": ["src/controllers/*"],
+      "@/database/*": ["src/database/*"],
+      "@/helpers/*": ["src/helpers/*"],
       "@/middleware/*": ["src/middleware/*"],
       "@/models/*": ["src/models/*"],
       "@/routes/*": ["src/routes/*"],

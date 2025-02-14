@@ -1,6 +1,16 @@
 import dotenvSafe from "dotenv-safe";
 dotenvSafe.config();
 
+import config from "@/config/app.config.js";
+import sessionConfig from "@/config/session.config.js";
+import connectDB from "@/database/mongo.db.js";
+import errorHandler from "@/middleware/errorHandler.middleware.js";
+import authRoutes from "@/routes/auth.routes.js";
+import postsRoutes from "@/routes/posts.routes.js";
+import subredditsRoutes from "@/routes/subreddits.routes.js";
+import usersRoutes from "@/routes/users.routes.js";
+import votesRoutes from "@/routes/votes.routes.js";
+import AppError from "@/utils/AppError.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import csrf from "csurf";
@@ -9,37 +19,14 @@ import session from "express-session";
 import helmet from "helmet";
 import passport from "passport";
 
-import config from "@/config/config.js";
-import { connectDB } from "@/config/db.js";
-import sessionConfig from "@/config/session.js";
-
-import AppError from "@/utils/AppError.js";
-
-import errorHandler from "@/middleware/errorHandler.js";
-
-import authRoutes from "@/routes/authRoutes.js";
-import postsRoutes from "@/routes/postsRoutes.js";
-import subredditsRoutes from "@/routes/subredditsRoutes.js";
-import usersRoutes from "@/routes/usersRoutes.js";
-import votesRoutes from "@/routes/votesRoutes.js";
-
-import { CorsOptions } from "cors";
-
 const app = express();
-const PORT = (process.env.PORT || 8080) as number;
-
-const corsOptions: CorsOptions = {
-  origin: config.clientUrl,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
+const PORT = config.port;
 
 const csrfProtection = csrf({ cookie: true });
 
 connectDB();
 
-app.use(cors(corsOptions));
+app.use(cors(config.corsOptions));
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
