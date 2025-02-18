@@ -6,7 +6,9 @@ import { getMyInfo, getUserInfo } from "@/controllers/user.controller.js";
 
 const router = express.Router();
 
-router.get("/me", verifyAuth, verifyToken, getMyInfo);
-router.get("/:username/about", verifyAuth, verifyToken, getUserInfo);
+router.use(verifyAuth, verifyToken);
+
+router.get("/me", getMyInfo);
+router.get("/:username/about", getUserInfo);
 
 export default router;

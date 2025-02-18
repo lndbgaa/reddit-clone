@@ -18,7 +18,7 @@ const redditConfig: RedditConfig = {
   callbackURL: `${config.serverUrl}/api/v1/auth/reddit/callback` as string,
   userAgent: process.env.REDDIT_API_USER_AGENT as string,
   baseUrl: "https://oauth.reddit.com",
-  scope: ["read", "identity", "vote"],
+  scope: ["read", "identity", "vote", "submit"],
 };
 
 export default redditConfig;

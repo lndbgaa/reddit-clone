@@ -19,6 +19,14 @@ interface IApiResponse2 {
   };
 }
 
+interface PostData {
+  subreddit: string;
+  title: string;
+  kind: "self" | "link";
+  text: string;
+  url: string;
+}
+
 export const fetchPopularPosts = async (accessToken: string): Promise<IPost[]> => {
   const url = `${baseUrl}/r/all/hot`;
 
@@ -61,7 +69,7 @@ export const fetchPostsByKeyword = async (accessToken: string, q: string): Promi
   return response.data.data.children.map((post: { data: IApiPostData }) => formatPost(post.data));
 };
 
-export const fetchPostComments = async (accessToken: string, postId: string): Promise<IComment[]> => {
+export const fetchCommentsForPost = async (accessToken: string, postId: string): Promise<IComment[]> => {
   const url = `${baseUrl}/comments/${postId}`;
 
   const response = await axios.get<IApiResponse2>(url, {
@@ -83,4 +91,30 @@ export const fetchPostComments = async (accessToken: string, postId: string): Pr
   return response.data[1].data.children.map((comment: { data: IApiCommentData }) =>
     formatComments(comment.data)
   );
+};
+
+export const submitPost = async (accessToken: string, postData: PostData): Promise<void> => {
+  const url = `${redditConfig.baseUrl}/api/submit`;
+
+  const options = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "User-Agent": userAgent,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  const params = new URLSearchParams({
+    title: postData.title,
+    sr: postData.subreddit,
+    kind: postData.kind,
+  });
+
+  if (postData.kind === "self") {
+    params.append("text", postData.text);
+  } else if (postData.kind === "link") {
+    params.append("url", postData.url);
+  }
+
+  await axios.post(url, params, options);
 };

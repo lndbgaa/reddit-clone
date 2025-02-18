@@ -2,9 +2,9 @@ import { IUserDocument } from "@/models/User.model.js";
 import { submitVote } from "@/services/reddit/vote.service.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
-export const voteOnContent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const voteOnContent = catchAsync(async (req: Request, res: Response) => {
   const user = req.user as IUserDocument;
   const accessToken = user.decryptAccessToken();
 

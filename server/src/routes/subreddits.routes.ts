@@ -10,8 +10,10 @@ import {
 
 const router = express.Router();
 
-router.get("/popular", verifyAuth, verifyToken, getPopularSubreddits);
-router.get("/:name/details", verifyAuth, verifyToken, getSubredditDetails);
-router.get("/:name/posts/popular", verifyAuth, verifyToken, getSubredditPopularPosts);
+router.use(verifyAuth, verifyToken);
+
+router.get("/popular", getPopularSubreddits);
+router.get("/:name/details", getSubredditDetails);
+router.get("/:name/posts/popular", getSubredditPopularPosts);
 
 export default router;

@@ -2,12 +2,20 @@ import verifyAuth from "@/middleware/verifyAuth.middleware.js";
 import verifyToken from "@/middleware/verifyToken.middleware.js";
 import express from "express";
 
-import { getPopularPosts, getPostComments, getPostsByKeyword } from "@/controllers/posts.controller.js";
+import {
+  createPost,
+  getCommentsForPost,
+  getPopularPosts,
+  searchPosts,
+} from "@/controllers/posts.controller.js";
 
 const router = express.Router();
 
-router.get("/popular", verifyAuth, verifyToken, getPopularPosts);
-router.get("/search", verifyAuth, verifyToken, getPostsByKeyword);
-router.get("/:id/comments", verifyAuth, verifyToken, getPostComments);
+router.use(verifyAuth, verifyToken);
+
+router.post("/", createPost);
+router.get("/search", searchPosts);
+router.get("/popular", getPopularPosts);
+router.get("/:id/comments", getCommentsForPost);
 
 export default router;

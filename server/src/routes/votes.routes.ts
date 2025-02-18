@@ -6,6 +6,8 @@ import { voteOnContent } from "@/controllers/vote.controller.js";
 
 const router = express.Router();
 
-router.post("/:type/:id/vote", verifyAuth, verifyToken, voteOnContent); // type = "posts" or "comments"
+router.use(verifyAuth, verifyToken);
+
+router.post("/:type/:id/vote", voteOnContent); // type = "posts" or "comments"
 
 export default router;
