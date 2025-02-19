@@ -1,6 +1,6 @@
 import { IUserDocument } from "@/models/User.model.js";
 import { fetchMyInfo, fetchUserInfo } from "@/services/reddit/users.service.js";
-import { IUser } from "@/types/User.type.js";
+import { User } from "@/types/User.type.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
 import { NextFunction, Request, Response } from "express";
@@ -9,7 +9,7 @@ export const getMyInfo = catchAsync(async (req: Request, res: Response, next: Ne
   const user = req.user as IUserDocument;
   const accessToken = user.decryptAccessToken();
 
-  const data: IUser | null = await fetchMyInfo(accessToken);
+  const data: User | null = await fetchMyInfo(accessToken);
 
   if (!data || !data.username) {
     throw new AppError({
@@ -36,7 +36,7 @@ export const getUserInfo = catchAsync(async (req: Request, res: Response, next: 
     });
   }
 
-  const data: IUser | null = await fetchUserInfo(accessToken, username);
+  const data: User | null = await fetchUserInfo(accessToken, username);
 
   if (!data || !data.username) {
     throw new AppError({

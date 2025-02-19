@@ -1,38 +1,41 @@
 import redditConfig from "@/config/reddit.config.js";
-import formatPost, { IApiPostData } from "@/helpers/formatPost.helper.js";
-import formatSubreddit, { IApiSubredditData } from "@/helpers/formatSubreddit.helper.js";
-import { IPost } from "@/types/Post.type.js";
-import { ISubreddit } from "@/types/Subreddit.type.js";
+import formatPost, { ApiPostData } from "@/helpers/formatPost.helper.js";
+import formatSubreddit, { ApiSubredditData } from "@/helpers/formatSubreddit.helper.js";
+import { Post } from "@/types/Post.type.js";
+import { Subreddit } from "@/types/Subreddit.type.js";
 
 import axios from "axios";
 
 const { baseUrl, userAgent } = redditConfig;
 
-interface IApiResponse1 {
-  data: IApiSubredditData; // a single subreddit object containing its details
+// Data Structure for Reddit API response for a single subreddit.
+// A single subreddit object containing its details.
+interface SubredditApiResponse {
+  data: ApiSubredditData;
 }
 
-interface IApiResponse2 {
+// Data Structure for Reddit API response for subreddits.
+// Each "children" item contains data for a single subreddit.
+interface SubredditsListApiResponse {
   data: {
     children: {
-      data: IApiSubredditData; // each "children" item contains data for a single subreddit
+      data: ApiSubredditData;
     }[];
   };
 }
 
-interface IApiResponse3 {
+// Data Structure for Reddit API response for posts.
+// Each "children" item contains data for a single post.
+interface PostsListApiResponse {
   data: {
-    children: { data: IApiPostData }[]; // each "children" item contains data for a single post
+    children: { data: ApiPostData }[];
   };
 }
 
-export const fetchSubredditDetails = async (
-  accessToken: string,
-  name: string
-): Promise<ISubreddit | null> => {
+export const fetchSubredditDetails = async (accessToken: string, name: string): Promise<Subreddit | null> => {
   const url = `${baseUrl}/r/${name}/about`;
 
-  const response = await axios.get<IApiResponse1>(url, {
+  const response = await axios.get<SubredditApiResponse>(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
@@ -46,10 +49,10 @@ export const fetchSubredditDetails = async (
   return formatSubreddit(response.data.data);
 };
 
-export const fetchPopularSubreddits = async (accessToken: string): Promise<ISubreddit[]> => {
+export const fetchPopularSubreddits = async (accessToken: string): Promise<Subreddit[]> => {
   const url = `${baseUrl}/subreddits/popular`;
 
-  const response = await axios.get<IApiResponse2>(url, {
+  const response = await axios.get<SubredditsListApiResponse>(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
@@ -63,15 +66,15 @@ export const fetchPopularSubreddits = async (accessToken: string): Promise<ISubr
     return [];
   }
 
-  return response.data.data.children.map((subreddit: { data: IApiSubredditData }) =>
+  return response.data.data.children.map((subreddit: { data: ApiSubredditData }) =>
     formatSubreddit(subreddit.data)
   );
 };
 
-export const fetchSubredditPopularPosts = async (accessToken: string, name: string): Promise<IPost[]> => {
+export const fetchSubredditPopularPosts = async (accessToken: string, name: string): Promise<Post[]> => {
   const url = `${baseUrl}/r/${name}/top`;
 
-  const response = await axios.get<IApiResponse3>(url, {
+  const response = await axios.get<PostsListApiResponse>(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
@@ -86,5 +89,5 @@ export const fetchSubredditPopularPosts = async (accessToken: string, name: stri
     return [];
   }
 
-  return response.data.data.children.map((post: { data: IApiPostData }) => formatPost(post.data));
+  return response.data.data.children.map((post: { data: ApiPostData }) => formatPost(post.data));
 };

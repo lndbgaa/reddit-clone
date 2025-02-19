@@ -9,7 +9,7 @@ interface RedditConfig {
   callbackURL: string;
   userAgent: string;
   baseUrl: string;
-  scope: string[];
+  scopes: string[];
 }
 
 const redditConfig: RedditConfig = {
@@ -18,7 +18,7 @@ const redditConfig: RedditConfig = {
   callbackURL: `${config.serverUrl}/api/v1/auth/reddit/callback` as string,
   userAgent: process.env.REDDIT_API_USER_AGENT as string,
   baseUrl: "https://oauth.reddit.com",
-  scope: ["read", "identity", "vote", "submit"],
+  scopes: ["read", "identity", "vote", "save", "subscribe", "submit", "edit"],
 };
 
 export default redditConfig;

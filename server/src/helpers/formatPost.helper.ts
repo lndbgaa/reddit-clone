@@ -1,7 +1,7 @@
-import { IPost } from "@/types/Post.type.js";
+import { Post } from "@/types/Post.type.js";
 import { isValidUrl } from "@/utils/validators.utils.js";
 
-export interface IApiPostData {
+export interface ApiPostData {
   id: string;
   subreddit_id: string;
   subreddit: string;
@@ -17,7 +17,7 @@ export interface IApiPostData {
   is_video: boolean;
 }
 
-export default (post: IApiPostData): IPost => {
+export default (post: ApiPostData): Post => {
   const {
     id,
     subreddit_id,

@@ -1,36 +1,67 @@
 import redditConfig from "@/config/reddit.config.js";
-import formatComments, { IApiCommentData } from "@/helpers/formatComments.helper.js";
-import formatPost, { IApiPostData } from "@/helpers/formatPost.helper.js";
-import { IComment } from "@/types/Comment.type.js";
-import { IPost } from "@/types/Post.type.js";
+import formatComments, { ApiCommentData } from "@/helpers/formatComments.helper.js";
+import formatPost, { ApiPostData } from "@/helpers/formatPost.helper.js";
+import { Comment } from "@/types/Comment.type.js";
+import { Post } from "@/types/Post.type.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = redditConfig;
 
-interface IApiResponse1 {
+// Data Structure for Reddit API response for posts.
+// Each "children" item contains data for a single post.
+interface PostsListApiResponse {
   data: {
-    children: { data: IApiPostData }[];
+    children: { data: ApiPostData }[];
   };
 }
 
-interface IApiResponse2 {
+// Data structure for Reddit API response for comments.
+// Each "children" item contains data for a single comment.
+interface CommentsListApiResponse {
   data: {
-    children: { data: IApiCommentData }[];
+    children: { data: ApiCommentData }[];
   };
 }
 
 interface PostData {
   subreddit: string;
   title: string;
-  kind: "self" | "link";
-  text: string;
-  url: string;
+  kind: "self" | "link"; // !!! "image" , "video" , "videogif"
+  text?: string; // Optional: Only for "self" posts
+  url?: string; // Optional: Required for "link", "image", or "video" posts
 }
 
-export const fetchPopularPosts = async (accessToken: string): Promise<IPost[]> => {
+export const submitPost = async (accessToken: string, postData: PostData): Promise<void> => {
+  const url = `${redditConfig.baseUrl}/api/submit`;
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "User-Agent": userAgent,
+    },
+  };
+
+  const data = new URLSearchParams({
+    title: postData.title,
+    sr: postData.subreddit,
+    kind: postData.kind,
+    resubmit: "true",
+    sendreplies: "true",
+  });
+
+  if (postData.kind === "self" && postData.text) {
+    data.append("text", postData.text);
+  } else if (postData.kind === "link" && postData.url) {
+    data.append("url", postData.url);
+  }
+
+  await axios.post(url, data, config);
+};
+
+export const fetchPopularPosts = async (accessToken: string): Promise<Post[]> => {
   const url = `${baseUrl}/r/all/hot`;
 
-  const response = await axios.get<IApiResponse1>(url, {
+  const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
@@ -39,19 +70,21 @@ export const fetchPopularPosts = async (accessToken: string): Promise<IPost[]> =
       g: "GLOBAL",
       limit: 70,
     },
-  });
+  };
 
-  if (!response.data?.data?.children || response.data.data.children.length === 0) {
+  const response = await axios.get<PostsListApiResponse>(url, config);
+
+  if (!response.data?.data?.children?.length) {
     return [];
   }
 
-  return response.data.data.children.map((post: { data: IApiPostData }) => formatPost(post.data));
+  return response.data.data.children.map((post: { data: ApiPostData }) => formatPost(post.data));
 };
 
-export const fetchPostsByKeyword = async (accessToken: string, q: string): Promise<IPost[]> => {
+export const fetchPostsByKeyword = async (accessToken: string, q: string): Promise<Post[]> => {
   const url = `${baseUrl}/r/all/search`;
 
-  const response = await axios.get<IApiResponse1>(url, {
+  const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
@@ -60,24 +93,28 @@ export const fetchPostsByKeyword = async (accessToken: string, q: string): Promi
       q,
       limit: 70,
     },
-  });
+  };
 
-  if (!response.data?.data?.children || response.data.data.children.length === 0) {
+  const response = await axios.get<PostsListApiResponse>(url, config);
+
+  if (!response.data?.data?.children?.length) {
     return [];
   }
 
-  return response.data.data.children.map((post: { data: IApiPostData }) => formatPost(post.data));
+  return response.data.data.children.map((post: { data: ApiPostData }) => formatPost(post.data));
 };
 
-export const fetchCommentsForPost = async (accessToken: string, postId: string): Promise<IComment[]> => {
+export const fetchCommentsForPost = async (accessToken: string, postId: string): Promise<Comment[]> => {
   const url = `${baseUrl}/comments/${postId}`;
 
-  const response = await axios.get<IApiResponse2>(url, {
+  const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
     },
-  });
+  };
+
+  const response = await axios.get<CommentsListApiResponse>(url, config);
 
   if (
     !response.data ||
@@ -88,33 +125,46 @@ export const fetchCommentsForPost = async (accessToken: string, postId: string):
     return [];
   }
 
-  return response.data[1].data.children.map((comment: { data: IApiCommentData }) =>
+  return response.data[1].data.children.map((comment: { data: ApiCommentData }) =>
     formatComments(comment.data)
   );
 };
 
-export const submitPost = async (accessToken: string, postData: PostData): Promise<void> => {
-  const url = `${redditConfig.baseUrl}/api/submit`;
+export const fetchPostById = async (accessToken: string, id: string): Promise<Post | null> => {
+  const url = `${redditConfig.baseUrl}/api/info`;
 
-  const options = {
+  const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
-      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    params: {
+      id: `t3_${id}`,
     },
   };
 
-  const params = new URLSearchParams({
-    title: postData.title,
-    sr: postData.subreddit,
-    kind: postData.kind,
-  });
+  const response = await axios.get<PostsListApiResponse>(url, config);
 
-  if (postData.kind === "self") {
-    params.append("text", postData.text);
-  } else if (postData.kind === "link") {
-    params.append("url", postData.url);
+  if (!response.data?.data?.children?.length) {
+    return null;
   }
 
-  await axios.post(url, params, options);
+  return formatPost(response.data.data.children[0].data);
+};
+
+export const deletePost = async (accessToken: string, id: string): Promise<void> => {
+  const url = `${redditConfig.baseUrl}/api/del`;
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "User-Agent": userAgent,
+    },
+  };
+
+  const data = new URLSearchParams({
+    id: `t3_${id}`,
+  });
+
+  await axios.post(url, data, config);
 };

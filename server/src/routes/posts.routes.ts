@@ -6,7 +6,9 @@ import {
   createPost,
   getCommentsForPost,
   getPopularPosts,
-  searchPosts,
+  getPostById,
+  getPostsByKeyword,
+  removePost,
 } from "@/controllers/posts.controller.js";
 
 const router = express.Router();
@@ -14,8 +16,11 @@ const router = express.Router();
 router.use(verifyAuth, verifyToken);
 
 router.post("/", createPost);
-router.get("/search", searchPosts);
 router.get("/popular", getPopularPosts);
+router.get("/search", getPostsByKeyword);
 router.get("/:id/comments", getCommentsForPost);
+router.get("/:id", getPostById);
+router.patch("/:id"); // editPost
+router.delete("/:id", removePost);
 
 export default router;

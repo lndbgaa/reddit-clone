@@ -1,20 +1,22 @@
 import redditConfig from "@/config/reddit.config.js";
-import formatUser, { IApiUserData } from "@/helpers/formatUser.helper.js";
-import { IUser } from "@/types/User.type.js";
+import formatUser, { ApiUserData } from "@/helpers/formatUser.helper.js";
+import { User } from "@/types/User.type.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = redditConfig;
 
-interface IApiResponse1 extends IApiUserData {}
+// Data Structure for Reddit API response for current user's info.
+interface MyInfoApiResponse extends ApiUserData {}
 
-interface IApiResponse2 {
-  data: IApiUserData;
+// Data Structure for Reddit API response for a particular user's info.
+interface UserInfoApiResponse {
+  data: ApiUserData;
 }
 
-export const fetchMyInfo = async (accessToken: string): Promise<IUser | null> => {
+export const fetchMyInfo = async (accessToken: string): Promise<User | null> => {
   const url = `${baseUrl}/api/v1/me`;
 
-  const response = await axios.get<IApiResponse1>(url, {
+  const response = await axios.get<MyInfoApiResponse>(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,
@@ -28,10 +30,10 @@ export const fetchMyInfo = async (accessToken: string): Promise<IUser | null> =>
   return formatUser(response.data);
 };
 
-export const fetchUserInfo = async (accessToken: string, username: string): Promise<IUser | null> => {
+export const fetchUserInfo = async (accessToken: string, username: string): Promise<User | null> => {
   const url = `${baseUrl}/user/${username}/about`;
 
-  const response = await axios.get<IApiResponse2>(url, {
+  const response = await axios.get<UserInfoApiResponse>(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "User-Agent": userAgent,

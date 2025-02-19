@@ -21,7 +21,7 @@ export const redirectToRedditLogin = (req: Request, res: Response, next: NextFun
   return passport.authenticate("reddit", {
     //state: req.session.state,
     duration: "permanent",
-    scope: redditConfig.scope,
+    scope: redditConfig.scopes,
   } as RedditAuthenticateOptions)(req, res, next);
 };
 

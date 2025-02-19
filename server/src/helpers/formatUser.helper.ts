@@ -1,6 +1,6 @@
-import { IUser } from "@/types/User.type.js";
+import { User } from "@/types/User.type.js";
 
-export interface IApiUserData {
+export interface ApiUserData {
   name: string;
   title: string;
   link_karma: number;
@@ -12,7 +12,7 @@ export interface IApiUserData {
   };
 }
 
-export default (user: IApiUserData): IUser => {
+export default (user: ApiUserData): User => {
   const { name, title, link_karma, comment_karma, created, snoovatar_img } = user;
   const { public_description } = user.subreddit || {};
 

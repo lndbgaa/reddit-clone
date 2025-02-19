@@ -1,4 +1,4 @@
-export interface ISubreddit {
+export interface Subreddit {
   id: string;
   name: string;
   title: string;

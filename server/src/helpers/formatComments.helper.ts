@@ -1,6 +1,6 @@
-import { IComment } from "@/types/Comment.type.js";
+import { Comment } from "@/types/Comment.type.js";
 
-export interface IApiCommentData {
+export interface ApiCommentData {
   id: string;
   author: string;
   body: string;
@@ -10,15 +10,15 @@ export interface IApiCommentData {
   created: number;
   score: number;
   replies: {
-    data: { children: { data: IApiCommentData }[] };
+    data: { children: { data: ApiCommentData }[] };
   };
 }
 
-const formatComments = (comment: IApiCommentData): IComment => {
+const formatComments = (comment: ApiCommentData): Comment => {
   const { id, author, body, subreddit, parent_id, permalink, created, score, replies } = comment;
 
   const formattedReplies =
-    replies?.data?.children.map((reply: { data: IApiCommentData }) => formatComments(reply.data)) || [];
+    replies?.data?.children.map((reply: { data: ApiCommentData }) => formatComments(reply.data)) || [];
 
   return {
     id,

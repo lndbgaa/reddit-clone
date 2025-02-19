@@ -1,4 +1,4 @@
-export interface IComment {
+export interface Comment {
   id: string;
   parent_id: string;
   subreddit: {
@@ -9,5 +9,5 @@ export interface IComment {
   created: number;
   score: number;
   permalink: string;
-  replies?: IComment[];
+  replies?: Comment[];
 }

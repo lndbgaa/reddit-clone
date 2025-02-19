@@ -1,6 +1,6 @@
-import { ISubreddit } from "@/types/Subreddit.type.js";
+import { Subreddit } from "@/types/Subreddit.type.js";
 
-export interface IApiSubredditData {
+export interface ApiSubredditData {
   id: string;
   display_name: string;
   title: string;
@@ -28,7 +28,7 @@ export interface IApiSubredditData {
   user_is_muted: boolean;
 }
 
-export default (subreddit: IApiSubredditData): ISubreddit => {
+export default (subreddit: ApiSubredditData): Subreddit => {
   const {
     id,
     display_name: name,
