@@ -1,6 +1,8 @@
+import validatePost from "@/helpers/validatePost.helper.js";
 import { IUserDocument } from "@/models/User.model.js";
 import {
   deletePost,
+  editPost,
   fetchCommentsForPost,
   fetchPopularPosts,
   fetchPostById,
@@ -11,7 +13,6 @@ import { Comment } from "@/types/Comment.type.js";
 import { Post } from "@/types/Post.type.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
-import { isValidUrl } from "@/utils/validators.utils.js";
 import { Request, Response } from "express";
 
 export const createPost = catchAsync(async (req: Request, res: Response) => {
@@ -20,47 +21,7 @@ export const createPost = catchAsync(async (req: Request, res: Response) => {
 
   const { subreddit, title, kind, text, url } = req.body;
 
-  if (!subreddit || typeof subreddit !== "string" || subreddit.trim() === "") {
-    throw new AppError({
-      statusCode: 400,
-      statusText: "Bad Request",
-      message: "Request body parameter 'subreddit' is missing or invalid. Must be a non-empty string.",
-    });
-  }
-
-  if (!title || typeof title !== "string" || title.trim() === "") {
-    throw new AppError({
-      statusCode: 400,
-      statusText: "Bad Request",
-      message: "Request body parameter 'title' is missing or invalid. Must be a non-empty string.",
-    });
-  }
-
-  const validKind = ["self", "link"];
-
-  if (!validKind.includes(kind)) {
-    throw new AppError({
-      statusCode: 400,
-      statusText: "Bad Request",
-      message: "Request body parameter 'kind' is missing or invalid. Must be either 'self' or 'link'.",
-    });
-  }
-
-  if (kind === "self" && (!text || text.trim() === "")) {
-    throw new AppError({
-      statusCode: 400,
-      statusText: "Bad Request",
-      message: "Request body parameter 'text' is required for self posts. Must be a non-empty string.",
-    });
-  }
-
-  if (kind === "link" && (!url || !isValidUrl(url) || url.trim() === "")) {
-    throw new AppError({
-      statusCode: 400,
-      statusText: "Bad Request",
-      message: "Request body parameter 'url' is required for link posts. Must be a valid URL.",
-    });
-  }
+  await validatePost(accessToken, { subreddit, title, kind, text, url });
 
   await submitPost(accessToken, { subreddit, title, kind, text, url });
 
@@ -163,6 +124,35 @@ export const getPostById = catchAsync(async (req: Request, res: Response) => {
   }
 
   res.status(200).json({ success: "true", data });
+});
+
+export const updatePost = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user as IUserDocument;
+  const accessToken = user.decryptAccessToken();
+
+  const { id } = req.params;
+
+  if (!id || typeof id !== "string" || id.trim() === "") {
+    throw new AppError({
+      statusCode: 400,
+      statusText: "Bad Request",
+      message: "Request parameter 'id' is missing or invalid. Must be a non-empty string.",
+    });
+  }
+
+  const { text } = req.body;
+
+  if (!text || typeof text !== "string" || text.trim() === "") {
+    throw new AppError({
+      statusCode: 400,
+      statusText: "Bad Request",
+      message: "Request body parameter 'text' is missing or invalid. Must be a non-empty string.",
+    });
+  }
+
+  await editPost(accessToken, id, text);
+
+  res.status(200).json({ success: true, message: "Post successfully updated!" });
 });
 
 export const removePost = catchAsync(async (req: Request, res: Response) => {

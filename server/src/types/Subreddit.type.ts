@@ -15,21 +15,21 @@ export interface Subreddit {
   };
   settings: {
     type: "public" | "restricted" | "private" | "archived";
+    submission_type: "any" | "link" | "self";
     over18: boolean;
     restrict_posting: boolean;
     restrict_commenting: boolean;
     allow_images: boolean;
-    allow_galleries: boolean;
     allow_videos: boolean;
     allow_videogifs: boolean;
-    allow_polls: boolean;
-    allow_talks: boolean;
-    allow_predictions: boolean;
     allow_discovery: boolean;
-    submission_type: "any" | "link" | "self";
+    allow_galleries: boolean;
   };
   moderation: {
     user_is_banned: boolean;
     user_is_muted: boolean;
+    user_is_moderator: boolean;
+    user_is_contributor: boolean;
+    user_is_subscriber: boolean;
   };
 }

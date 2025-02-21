@@ -12,6 +12,7 @@ export interface ApiSubredditData {
   primary_color: string;
   subscribers: number;
   subreddit_type: "public" | "restricted" | "private" | "archived";
+  submission_type: "any" | "link" | "self";
   over18: boolean;
   restrict_posting: boolean;
   restrict_commenting: boolean;
@@ -19,13 +20,12 @@ export interface ApiSubredditData {
   allow_galleries: boolean;
   allow_videos: boolean;
   allow_videogifs: boolean;
-  allow_polls: boolean;
-  allow_talks: boolean;
-  allow_predictions: boolean;
   allow_discovery: boolean;
-  submission_type: "any" | "link" | "self";
   user_is_banned: boolean;
   user_is_muted: boolean;
+  user_is_moderator: boolean;
+  user_is_contributor: boolean;
+  user_is_subscriber: boolean;
 }
 
 export default (subreddit: ApiSubredditData): Subreddit => {
@@ -41,6 +41,7 @@ export default (subreddit: ApiSubredditData): Subreddit => {
     primary_color: color,
     subscribers,
     subreddit_type: type,
+    submission_type,
     over18,
     restrict_posting,
     restrict_commenting,
@@ -48,13 +49,12 @@ export default (subreddit: ApiSubredditData): Subreddit => {
     allow_galleries,
     allow_videos,
     allow_videogifs,
-    allow_polls,
-    allow_talks,
-    allow_predictions,
     allow_discovery,
-    submission_type,
     user_is_banned,
     user_is_muted,
+    user_is_moderator,
+    user_is_contributor,
+    user_is_subscriber,
   } = subreddit;
 
   return {
@@ -74,6 +74,7 @@ export default (subreddit: ApiSubredditData): Subreddit => {
     },
     settings: {
       type,
+      submission_type,
       over18,
       restrict_posting,
       restrict_commenting,
@@ -81,15 +82,14 @@ export default (subreddit: ApiSubredditData): Subreddit => {
       allow_galleries,
       allow_videos,
       allow_videogifs,
-      allow_polls,
-      allow_talks,
-      allow_predictions,
       allow_discovery,
-      submission_type,
     },
     moderation: {
       user_is_banned,
       user_is_muted,
+      user_is_moderator,
+      user_is_contributor,
+      user_is_subscriber,
     },
   };
 };

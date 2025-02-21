@@ -1,4 +1,3 @@
-import verifyAuth from "@/middleware/verifyAuth.middleware.js";
 import verifyToken from "@/middleware/verifyToken.middleware.js";
 import express from "express";
 
@@ -10,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.use(verifyAuth, verifyToken);
+router.use(verifyToken);
 
 router.get("/popular", getPopularSubreddits);
 router.get("/:name/details", getSubredditDetails);

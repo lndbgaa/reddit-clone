@@ -18,7 +18,7 @@ export interface IUserDocument extends Document {
   decryptRefreshToken: () => string;
 }
 
-const encryptToken = (token: string) => {
+const encryptToken = (token: string): string => {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(config.encryptSecret), iv);
   let encrypted = cipher.update(token, "utf8", "hex");
@@ -26,7 +26,7 @@ const encryptToken = (token: string) => {
   return iv.toString("hex") + ":" + encrypted;
 };
 
-const decryptToken = (encryptedToken: string) => {
+const decryptToken = (encryptedToken: string): string => {
   const parts = encryptedToken.split(":");
   const iv = Buffer.from(parts[0], "hex");
   const encryptedText = parts[1];
@@ -69,11 +69,11 @@ const userSchema = new Schema<IUserDocument>({
   },
 });
 
-userSchema.methods.decryptAccessToken = function () {
+userSchema.methods.decryptAccessToken = function (): string {
   return decryptToken(this.access_token);
 };
 
-userSchema.methods.decryptRefreshToken = function () {
+userSchema.methods.decryptRefreshToken = function (): string {
   return decryptToken(this.refresh_token);
 };
 

@@ -4,21 +4,20 @@ import catchAsync from "@/utils/catchAsync.utils.js";
 import { NextFunction, Request, Response } from "express";
 
 export default catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const user = req.user;
-
-  if (!user) {
+  if (!req.isAuthenticated()) {
     throw new AppError({
       statusCode: 401,
       statusText: "Unauthorized",
-      message: "No user is authenticated, unable to verify token",
+      message: "User must be logged in to access this resource.",
     });
   }
+
+  const user = req.user;
 
   const now = Date.now();
   const expirationTime = user.access_token_expiration;
 
   if (expirationTime && expirationTime > now) {
-    console.log("✅ User access token still valid!");
     return next();
   }
 
@@ -36,6 +35,8 @@ export default catchAsync(async (req: Request, res: Response, next: NextFunction
 
   if (!data) {
     throw new AppError({
+      statusCode: 500,
+      statusText: "Internal Server Error",
       message: "Failed to retrieve new tokens from Reddit API",
     });
   }
@@ -47,8 +48,7 @@ export default catchAsync(async (req: Request, res: Response, next: NextFunction
     user.refresh_token = data.refreshToken;
   }
 
-  console.log("✅ User access token refreshed successfully!");
-
   await user.save();
+
   return next();
 });

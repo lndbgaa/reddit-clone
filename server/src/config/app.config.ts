@@ -19,7 +19,7 @@ const config: Config = {
   port: process.env.PORT ? parseInt(process.env.PORT, 10) : 8080,
   corsOptions: {
     origin: clientUrl,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   },
