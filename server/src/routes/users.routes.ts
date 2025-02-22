@@ -8,6 +8,6 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.get("/me", getMyInfo);
-router.get("/:username/about", getUserInfo);
+router.get("/:username", getUserInfo);
 
 export default router;

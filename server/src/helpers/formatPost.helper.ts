@@ -8,14 +8,17 @@ export interface ApiPostData {
   title: string;
   author: string;
   created: number;
-  post_hint?: string;
-  selftext: string;
   score: number;
+  num_comments: number;
+  post_hint?: string;
+  is_video: boolean;
+  selftext: string;
   url: string;
   thumbnail: string;
-  num_comments: number;
-  is_video: boolean;
 }
+
+// Function that extracts and reformats specific data from an object of type ApiPostData (data sent by the API)
+// into an object of type Post, mapping relevant properties for the application.
 
 export default (post: ApiPostData): Post => {
   const {
@@ -26,12 +29,12 @@ export default (post: ApiPostData): Post => {
     author,
     created,
     score,
+    num_comments,
     post_hint,
     is_video,
     selftext,
     url,
     thumbnail,
-    num_comments,
   } = post;
 
   return {
@@ -44,6 +47,7 @@ export default (post: ApiPostData): Post => {
     author,
     created,
     score,
+    num_comments,
     content: {
       type: post_hint || "text",
       is_video: is_video,
@@ -51,6 +55,5 @@ export default (post: ApiPostData): Post => {
       url,
       thumbnail: isValidUrl(thumbnail) ? thumbnail : "", // !!!
     },
-    num_comments,
   };
 };

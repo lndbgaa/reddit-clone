@@ -12,6 +12,9 @@ export interface ApiUserData {
   };
 }
 
+// Function that extracts and reformats specific data from an object of type ApiUserData (data sent by the API)
+// into an object of type User, mapping relevant properties for the application.
+
 export default (user: ApiUserData): User => {
   const { name, title, link_karma, comment_karma, created, snoovatar_img } = user;
   const { public_description } = user.subreddit || {};

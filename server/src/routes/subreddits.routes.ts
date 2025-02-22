@@ -12,7 +12,7 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.get("/popular", getPopularSubreddits);
-router.get("/:name/details", getSubredditDetails);
+router.get("/:name", getSubredditDetails);
 router.get("/:name/posts/popular", getSubredditPopularPosts);
 
 export default router;

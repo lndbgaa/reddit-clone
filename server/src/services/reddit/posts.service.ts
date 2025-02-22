@@ -1,5 +1,5 @@
 import redditConfig from "@/config/reddit.config.js";
-import formatComments, { ApiCommentData } from "@/helpers/formatComments.helper.js";
+import formatComments, { ApiCommentData } from "@/helpers/formatComment.helper.js";
 import formatPost, { ApiPostData } from "@/helpers/formatPost.helper.js";
 import { Comment } from "@/types/Comment.type.js";
 import { CreatePostData } from "@/types/CreatePostData.type.js";
@@ -25,7 +25,7 @@ interface CommentsListApiResponse {
 }
 
 export const submitPost = async (accessToken: string, postData: CreatePostData): Promise<void> => {
-  const url = `${redditConfig.baseUrl}/api/submit`;
+  const url = `${baseUrl}/api/submit`;
 
   const config = {
     headers: {
@@ -124,7 +124,7 @@ export const fetchCommentsForPost = async (accessToken: string, postId: string):
 };
 
 export const fetchPostById = async (accessToken: string, id: string): Promise<Post | null> => {
-  const url = `${redditConfig.baseUrl}/api/info`;
+  const url = `${baseUrl}/api/info`;
 
   const config = {
     headers: {
@@ -143,39 +143,4 @@ export const fetchPostById = async (accessToken: string, id: string): Promise<Po
   }
 
   return formatPost(response.data.data.children[0].data);
-};
-
-export const editPost = async (accessToken: string, id: string, text: string): Promise<void> => {
-  const url = `${redditConfig.baseUrl}/api/editusertext`;
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "User-Agent": userAgent,
-    },
-  };
-
-  const data = new URLSearchParams({
-    thing_id: `t3_${id}`,
-    text,
-  });
-
-  await axios.post(url, data, config);
-};
-
-export const deletePost = async (accessToken: string, id: string): Promise<void> => {
-  const url = `${redditConfig.baseUrl}/api/del`;
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "User-Agent": userAgent,
-    },
-  };
-
-  const data = new URLSearchParams({
-    id: `t3_${id}`,
-  });
-
-  await axios.post(url, data, config);
 };

@@ -14,6 +14,9 @@ export interface ApiCommentData {
   };
 }
 
+// Function that extracts and reformats specific data from an object of type ApiCommentData (data sent by the API)
+// into an object of type Comment, mapping relevant properties for the application.
+
 const formatComments = (comment: ApiCommentData): Comment => {
   const { id, author, body, subreddit, parent_id, permalink, created, score, replies } = comment;
 

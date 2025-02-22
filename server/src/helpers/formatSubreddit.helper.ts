@@ -28,6 +28,9 @@ export interface ApiSubredditData {
   user_is_subscriber: boolean;
 }
 
+// Function that extracts and reformats specific data from an object of type ApiSubredditData (data sent by the API)
+// into an object of type Subreddit, mapping relevant properties for the application.
+
 export default (subreddit: ApiSubredditData): Subreddit => {
   const {
     id,

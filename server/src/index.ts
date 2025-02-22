@@ -6,10 +6,11 @@ import sessionConfig from "@/config/session.config.js";
 import connectDB from "@/database/mongo.db.js";
 import errorHandler from "@/middleware/errorHandler.middleware.js";
 import authRoutes from "@/routes/auth.routes.js";
+import commentsRoutes from "@/routes/comments.routes.js";
+import contentRoutes from "@/routes/content.routes.js";
 import postsRoutes from "@/routes/posts.routes.js";
 import subredditsRoutes from "@/routes/subreddits.routes.js";
 import usersRoutes from "@/routes/users.routes.js";
-import votesRoutes from "@/routes/votes.routes.js";
 import AppError from "@/utils/AppError.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -43,10 +44,11 @@ app.get("/api/csrf-token", csrfProtection, (req, res) => {
 });
 
 app.use("/api/v1/auth/reddit", authRoutes);
+app.use("/api/v1/reddit", contentRoutes);
 app.use("/api/v1/reddit/subreddits", subredditsRoutes);
 app.use("/api/v1/reddit/posts", postsRoutes);
+app.use("/api/v1/reddit/comments", commentsRoutes);
 app.use("/api/v1/reddit/users", usersRoutes);
-app.use("/api/v1/reddit", votesRoutes);
 
 app.use((req, res, next) => {
   next(
