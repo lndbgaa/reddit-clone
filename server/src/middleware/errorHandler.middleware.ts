@@ -23,10 +23,10 @@ const errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response
       const statusCode = err.response.status;
       const statusText = err.response.statusText;
       const message = err.response.data.error.message || "An error occurred with the external service.";
-      const stack = err.stack || null;
+      const stack = err.stack ?? null;
 
       const details = {
-        url: err.config?.url || "Unknown",
+        url: err.config?.url ?? "Unknown",
         method: err.config?.method ? err.config?.method.toUpperCase() : "Unknown",
       };
 
@@ -43,11 +43,11 @@ const errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response
       const statusCode = 503;
       const statusText = "Network Error or Timeout";
       const message = "The request could not be completed. Please try again later.";
-      const stack = err.stack || null;
+      const stack = err.stack ?? null;
 
       const details = {
-        url: err.config?.url || "Unknown",
-        method: (err.config?.method && err.config.method.toUpperCase()) || "Unknown",
+        url: err.config?.url ?? "Unknown",
+        method: err.config?.method?.toUpperCase() ?? "Unknown",
         errorType: err.code === "ECONNABORTED" ? "Timeout" : "Network Error",
       };
 

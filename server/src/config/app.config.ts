@@ -12,10 +12,10 @@ interface Config {
   encryptSecret: string;
 }
 
-const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+const clientUrl = process.env.CLIENT_URL ?? "http://localhost:5173";
 
 const config: Config = {
-  env: process.env.NODE_ENV || "development",
+  env: process.env.NODE_ENV ?? "development",
   port: process.env.PORT ? parseInt(process.env.PORT, 10) : 8080,
   corsOptions: {
     origin: clientUrl,
@@ -24,7 +24,7 @@ const config: Config = {
     credentials: true,
   },
   clientUrl,
-  serverUrl: process.env.SERVER_URL || "http://localhost:8080",
+  serverUrl: process.env.SERVER_URL ?? "http://localhost:8080",
   encryptSecret: process.env.ENCRYPTION_SECRET as string,
 };
 

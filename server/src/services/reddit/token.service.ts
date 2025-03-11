@@ -20,7 +20,7 @@ export const fetchNewToken = async (refreshToken: string) => {
     }
   );
 
-  if (!response.data || !response.data.access_token) {
+  if (!response.data?.access_token) {
     return null;
   }
 

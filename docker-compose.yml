@@ -1,0 +1,33 @@
+services:
+  client:
+    build:
+      context: ./client
+    image: reddit-clone-client:v1.0
+    container_name: client
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./client/.env
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+    image: reddit-clone-server:v1.0
+    container_name: server
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: database
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=redditApp
+    restart: always

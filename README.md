@@ -6,9 +6,11 @@
 
 ## Tech Stack
 
-- **Frontend**: React, TypeScript, CSS
-- **Backend**: Node, Express, TypeScript, MongoDB, Mongoose
-- **API**: [Reddit API](https://business.reddithelp.com/s/article/Create-a-Reddit-Application)
+- **Frontend**: React, Redux, TypeScript, SCSS
+- **Backend**: Node.js, Express.js, TypeScript
+- **Database** : MongoDB
+- **Containerization**: Docker & Docker Compose
+- **External API**: [Reddit API](https://business.reddithelp.com/s/article/Create-a-Reddit-Application)
 
 ## Features
 

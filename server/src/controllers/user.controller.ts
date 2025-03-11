@@ -39,7 +39,7 @@ export const getUserInfo = catchAsync(async (req: Request, res: Response, next: 
 
   const data: User | null = await fetchUserInfo(accessToken, username);
 
-  if (!data || !data.username) {
+  if (!data?.username) {
     throw new AppError({
       statusCode: 404,
       statusText: "Not Found",

@@ -103,7 +103,7 @@ export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
           return;
         }
 
-        res.clearCookie(sessionConfig.name || "connect.sid");
+        res.clearCookie(sessionConfig.name ?? "connect.sid");
         res.status(200).json({ success: true, message: "User logged out successfully!" });
         //res.redirect(config.clientUrl); // !!!
       });

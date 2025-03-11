@@ -24,7 +24,7 @@ export default new Strategy(
         );
       }
 
-      if (!profile || !profile.id || !profile.name) {
+      if (!profile?.id || !profile?.name) {
         return done(
           new AppError({
             statusCode: 401,
