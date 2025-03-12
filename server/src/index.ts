@@ -1,5 +1,4 @@
-import dotenvSafe from "dotenv-safe";
-dotenvSafe.config();
+loadEnvConfig();
 
 import config from "@/config/app.config.js";
 import sessionConfig from "@/config/session.config.js";
@@ -12,6 +11,8 @@ import postsRoutes from "@/routes/posts.routes.js";
 import subredditsRoutes from "@/routes/subreddits.routes.js";
 import usersRoutes from "@/routes/users.routes.js";
 import AppError from "@/utils/AppError.js";
+import checkEnv from "@/utils/checkEnv.js";
+import loadEnvConfig from "@/utils/loadEnvConfig.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import csrf from "csurf";
@@ -19,6 +20,8 @@ import express from "express";
 import session from "express-session";
 import helmet from "helmet";
 import passport from "passport";
+
+checkEnv();
 
 const app = express();
 const PORT = config.port;
@@ -36,7 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.json({ status: "Server is up and running" });
+  res.json({ status: "Server is up and running!" });
 });
 
 app.get("/api/csrf-token", csrfProtection, (req, res) => {

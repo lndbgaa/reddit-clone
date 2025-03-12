@@ -1,6 +1,3 @@
-import dotenvSafe from "dotenv-safe";
-dotenvSafe.config();
-
 import { CorsOptions } from "cors";
 
 interface Config {

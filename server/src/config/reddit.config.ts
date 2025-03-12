@@ -1,6 +1,3 @@
-import dotenvSafe from "dotenv-safe";
-dotenvSafe.config();
-
 import config from "@/config/app.config.js";
 
 interface RedditConfig {

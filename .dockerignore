@@ -11,12 +11,7 @@ logs/
 *.log
 npm-debug.log*
 
-.env
-.env.local
-.env.*.local
-.env.development
-.env.test
-.env.production
+*.env*
 
 .DS_Store
 

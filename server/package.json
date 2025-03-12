@@ -2,9 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.ts",
+  "main": "./dist/index.ts",
   "scripts": {
-    "build": "rimraf ./dist && tsc && tsc-alias",
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && tsc && tsc-alias",
     "start": "node ./dist/index.js",
     "dev": "tsx watch ./src/index.ts"
   },
@@ -18,8 +19,8 @@
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "csurf": "^1.10.0",
-    "dotenv-safe": "^9.1.0",
+    "csurf": "^1.2.2",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "helmet": "^8.0.0",

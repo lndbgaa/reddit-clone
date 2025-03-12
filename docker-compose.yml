@@ -6,8 +6,15 @@ services:
     container_name: client
     ports:
       - "3000:3000"
+    networks:
+      - reddit-app
+    volumes:
+      - ./client:/usr/src/app # for hot loading
+      - /usr/src/app/node_modules
     env_file:
-      - ./client/.env
+      - ./client/.env.development
+    environment:
+      - NODE_ENV=development
     depends_on:
       - server
 
@@ -18,16 +25,37 @@ services:
     container_name: server
     ports:
       - "8080:8080"
+    networks:
+      - reddit-app
+    volumes:
+      - ./server:/usr/src/app # for hot loading
+      - /usr/src/app/node_modules
     env_file:
-      - ./server/.env
+      - ./server/.env.development
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
     depends_on:
       - mongo
+    restart: always
 
   mongo:
     image: mongo:latest
     container_name: database
     ports:
       - "27017:27017"
+    networks:
+      - reddit-app
+    volumes:
+      - db-data:/data/db
     environment:
-      - MONGO_INITDB_DATABASE=redditApp
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     restart: always
+
+networks:
+  reddit-app:
+    driver: bridge
+volumes:
+  db-data:
+    driver: local

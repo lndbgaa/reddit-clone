@@ -1,8 +1,4 @@
-import dotenvSafe from "dotenv-safe";
-dotenvSafe.config();
-
 import config from "@/config/app.config.js";
-import mongoConfig from "@/config/mongo.config.js";
 import MongoStore from "connect-mongo";
 import { SessionOptions } from "express-session";
 
@@ -12,8 +8,7 @@ const sessionConfig: SessionOptions = {
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: mongoConfig.uri,
-    mongoOptions: mongoConfig.options,
+    mongoUrl: process.env.MONGO_URI,
     ttl: 7 * 24 * 60 * 60, // 7 days
     touchAfter: 24 * 60 * 60, // 24 hours
     crypto: {
