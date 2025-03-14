@@ -22,7 +22,7 @@ const errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response
     if (err.response) {
       const statusCode = err.response.status;
       const statusText = err.response.statusText;
-      const message = err.response.data.error.message || "An error occurred with the external service.";
+      const message = err.response.data?.error?.message || "An error occurred with the external service.";
       const stack = err.stack ?? null;
 
       const details = {

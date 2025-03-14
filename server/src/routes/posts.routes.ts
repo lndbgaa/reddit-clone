@@ -16,7 +16,7 @@ router.use(verifyToken);
 router.post("/", createPost);
 router.get("/popular", getPopularPosts);
 router.get("/search", getPostsByKeyword);
-router.get("/:id/comments", getCommentsForPost); // !!!
 router.get("/:id", getPostById);
+router.get("/:id/comments", getCommentsForPost); // !!!
 
 export default router;

@@ -20,7 +20,7 @@ function validateTypeAndId(req: Request) {
     throw new AppError({
       statusCode: 400,
       statusText: "Bad Request",
-      message: "Invalid 'type' parameter. Must be 'posts' or 'comments'.",
+      message: "Invalid 'type' parameter. Must be either 'posts' or 'comments'.",
     });
   }
 

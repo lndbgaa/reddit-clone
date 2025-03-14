@@ -3,8 +3,9 @@ import formatPost, { ApiPostData } from "@/helpers/formatPost.helper.js";
 import formatSubreddit, { ApiSubredditData } from "@/helpers/formatSubreddit.helper.js";
 import { Post } from "@/types/Post.type.js";
 import { Subreddit } from "@/types/Subreddit.type.js";
+import AppError from "@/utils/AppError.js";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const { baseUrl, userAgent } = redditConfig;
 
@@ -69,6 +70,40 @@ export const fetchPopularSubreddits = async (accessToken: string): Promise<Subre
   return response.data.data.children.map((subreddit: { data: ApiSubredditData }) =>
     formatSubreddit(subreddit.data)
   );
+};
+
+export const postSubscribe = async (
+  accessToken: string,
+  action: "sub" | "unsub",
+  name: string
+): Promise<void> => {
+  const url = `${baseUrl}/api/subscribe`;
+
+  const options = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "User-Agent": userAgent,
+    },
+  };
+
+  const data = new URLSearchParams({
+    action,
+    sr_name: name,
+  });
+
+  try {
+    await axios.post(url, data, options);
+  } catch (error) {
+    if (error instanceof AxiosError && error.response?.status === 404) {
+      throw new AppError({
+        statusCode: 404,
+        statusText: "Not Found",
+        message: `Subreddit r/${name} not found.`,
+      });
+    } else {
+      throw error;
+    }
+  }
 };
 
 export const fetchSubredditPopularPosts = async (accessToken: string, name: string): Promise<Post[]> => {

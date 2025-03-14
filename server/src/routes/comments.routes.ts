@@ -7,6 +7,7 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.post("/", createComment);
-router.get("/:id", getCommentById);
+router.get("/:id", getCommentById); // !!!
+//router.get("/:id/comments", getCommentComments); // !!!
 
 export default router;

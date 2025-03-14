@@ -1,5 +1,5 @@
 import redditConfig from "@/config/reddit.config.js";
-import formatComment from "@/helpers/formatComment.helper";
+import formatComment from "@/helpers/formatComment.helper.js";
 import { Comment } from "@/types/Comment.type.js";
 import axios from "axios";
 

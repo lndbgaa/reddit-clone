@@ -2,11 +2,11 @@ import { IUserDocument } from "@/models/User.model.js";
 import { User } from "@/types/User.type.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import { fetchMyInfo, fetchUserInfo } from "@/services/reddit/users.service.js";
 
-export const getMyInfo = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const getMyInfo = catchAsync(async (req: Request, res: Response) => {
   const user = req.user as IUserDocument;
   const accessToken = user.decryptAccessToken();
 
@@ -23,7 +23,7 @@ export const getMyInfo = catchAsync(async (req: Request, res: Response, next: Ne
   res.status(200).json({ success: true, data });
 });
 
-export const getUserInfo = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const getUserInfo = catchAsync(async (req: Request, res: Response) => {
   const user = req.user as IUserDocument;
   const accessToken = user.decryptAccessToken();
 

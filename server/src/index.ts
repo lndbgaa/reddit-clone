@@ -2,7 +2,7 @@ loadEnvConfig();
 
 import config from "@/config/app.config.js";
 import sessionConfig from "@/config/session.config.js";
-import connectDB from "@/database/mongo.db.js";
+import connectDB from "@/database/mongo.database.js";
 import errorHandler from "@/middleware/errorHandler.middleware.js";
 import authRoutes from "@/routes/auth.routes.js";
 import commentsRoutes from "@/routes/comments.routes.js";
