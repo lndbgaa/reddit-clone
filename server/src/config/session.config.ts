@@ -18,7 +18,7 @@ const sessionConfig: SessionOptions = {
   cookie: {
     httpOnly: true,
     secure: config.env === "production",
-    sameSite: "lax",
+    sameSite: "lax", // !!!
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
   },
 };

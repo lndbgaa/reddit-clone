@@ -1,4 +1,4 @@
-import { IUserDocument } from "@/models/User.model.js";
+import { UserDocument } from "@/models/User.model.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
 import { Request, Response } from "express";
@@ -39,7 +39,7 @@ function validateTypeAndId(req: Request) {
 }
 
 export const voteOnContent = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id, type } = validateTypeAndId(req);
@@ -68,7 +68,7 @@ export const voteOnContent = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const saveContent = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id, type } = validateTypeAndId(req);
@@ -81,7 +81,7 @@ export const saveContent = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const unsaveContent = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id, type } = validateTypeAndId(req);
@@ -94,7 +94,7 @@ export const unsaveContent = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const removeContent = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id, type } = validateTypeAndId(req);
@@ -107,7 +107,7 @@ export const removeContent = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const updateContent = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id, type } = validateTypeAndId(req);

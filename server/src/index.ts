@@ -1,4 +1,6 @@
-loadEnvConfig();
+import dotenv from "dotenv";
+const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env.development";
+dotenv.config({ path: envFile });
 
 import config from "@/config/app.config.js";
 import sessionConfig from "@/config/session.config.js";
@@ -12,7 +14,6 @@ import subredditsRoutes from "@/routes/subreddits.routes.js";
 import usersRoutes from "@/routes/users.routes.js";
 import AppError from "@/utils/AppError.js";
 import checkEnv from "@/utils/checkEnv.js";
-import loadEnvConfig from "@/utils/loadEnvConfig.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import csrf from "csurf";

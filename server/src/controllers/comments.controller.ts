@@ -1,4 +1,4 @@
-import { IUserDocument } from "@/models/User.model.js";
+import { UserDocument } from "@/models/User.model.js";
 import { fetchCommentById, submitComment } from "@/services/reddit/comments.service.js";
 import { Comment } from "@/types/Comment.type.js";
 import AppError from "@/utils/AppError.js";
@@ -6,7 +6,7 @@ import catchAsync from "@/utils/catchAsync.utils.js";
 import { Request, Response } from "express";
 
 export const createComment = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { parent_type, parent_id, text } = req.body;
@@ -46,7 +46,7 @@ export const createComment = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getCommentById = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id } = req.params;

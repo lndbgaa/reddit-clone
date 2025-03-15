@@ -6,10 +6,9 @@ interface Config {
   corsOptions: CorsOptions;
   clientUrl: string;
   serverUrl: string;
-  encryptSecret: string;
 }
 
-const clientUrl = process.env.CLIENT_URL ?? "http://localhost:5173";
+const clientUrl = process.env.CLIENT_URL ?? "http://localhost:3000";
 
 const config: Config = {
   env: process.env.NODE_ENV ?? "development",
@@ -22,7 +21,6 @@ const config: Config = {
   },
   clientUrl,
   serverUrl: process.env.SERVER_URL ?? "http://localhost:8080",
-  encryptSecret: process.env.ENCRYPTION_SECRET as string,
 };
 
 export default config;

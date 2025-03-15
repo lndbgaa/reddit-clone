@@ -1,5 +1,5 @@
 import redditConfig from "@/config/reddit.config.js";
-import User, { IUserDocument } from "@/models/User.model.js";
+import User, { UserDocument } from "@/models/User.model.js";
 import AppError from "@/utils/AppError.js";
 import { IRedditProfile, Strategy } from "passport-reddit";
 
@@ -47,7 +47,10 @@ export default new Strategy(
       await updateUser(user, profile, accessToken, refreshToken, expiresIn);
       return done(null, user);
     } catch (err: unknown) {
-      return done(err, null);
+      if (err instanceof AppError) {
+        return done(err, null);
+      }
+      return done(new AppError({ statusCode: 500, message: "Internal Server Error" }), null);
     }
   }
 );
@@ -73,7 +76,7 @@ async function createUser(
 }
 
 async function updateUser(
-  user: IUserDocument,
+  user: UserDocument,
   profile: IRedditProfile,
   accessToken: string,
   refreshToken: string,

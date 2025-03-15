@@ -5,7 +5,7 @@ import AppError from "@/utils/AppError.js";
 import { isValidUrl } from "@/utils/validators.utils.js";
 
 // Function to validate post data before submission to Reddit
-// Ensures that the required fields are present and meet the subreddit-specific rules.
+// Ensures that the required fields are present and meet the subreddit-specific rules
 
 export default async (accessToken: string, postData: CreatePostData) => {
   const { subreddit, title, kind, text, url } = postData;

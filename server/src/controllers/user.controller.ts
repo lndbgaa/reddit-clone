@@ -1,4 +1,4 @@
-import { IUserDocument } from "@/models/User.model.js";
+import { UserDocument } from "@/models/User.model.js";
 import { User } from "@/types/User.type.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 import { fetchMyInfo, fetchUserInfo } from "@/services/reddit/users.service.js";
 
 export const getMyInfo = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const data: User | null = await fetchMyInfo(accessToken);
@@ -24,7 +24,7 @@ export const getMyInfo = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getUserInfo = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { username } = req.params;

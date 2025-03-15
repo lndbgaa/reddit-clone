@@ -1,4 +1,4 @@
-import { IUserDocument } from "@models/User.js";
+import { UserDocument } from "@/models/User.model.js";
 
 declare module "passport-reddit" {
   export interface IRedditProfile {
@@ -20,7 +20,7 @@ declare module "passport-reddit" {
     refreshToken: string,
     expires_in: { expires_in: number },
     profile: IRedditProfile,
-    done: (error: any, user?: IUserDocument | null) => void
+    done: (error: any, user?: UserDocument | null) => void
   ) => void;
 
   export class Strategy {

@@ -1,10 +1,10 @@
-import config from "@/config/app.config.js";
+import AppError from "@/utils/AppError";
 import crypto from "crypto";
 import mongoose, { Document } from "mongoose";
 
 const { Schema } = mongoose;
 
-export interface IUserDocument extends Document {
+export interface UserDocument extends Document {
   _id: string;
   reddit_id: string;
   name: string;
@@ -18,25 +18,52 @@ export interface IUserDocument extends Document {
   decryptRefreshToken: () => string;
 }
 
+const encryptSecret = process.env.ENCRYPTION_SECRET as string;
+
 const encryptToken = (token: string): string => {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(config.encryptSecret), iv);
-  let encrypted = cipher.update(token, "utf8", "hex");
-  encrypted += cipher.final("hex");
-  return iv.toString("hex") + ":" + encrypted;
+  if (Buffer.from(encryptSecret).length !== 32) {
+    throw new AppError({
+      statusCode: 400,
+      statusText: "Bad Request",
+      message: "Encryption secret must be 32 bytes for AES-256-GCM.",
+    });
+  }
+
+  try {
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv("aes-256-gcm", Buffer.from(encryptSecret), iv);
+    let encrypted = cipher.update(token, "utf8", "hex");
+    encrypted += cipher.final("hex");
+    const tag = cipher.getAuthTag().toString("hex");
+    return iv.toString("hex") + ":" + encrypted + ":" + tag;
+  } catch (err) {
+    throw new AppError({
+      message: "Failed to encrypt token.",
+    });
+  }
 };
 
 const decryptToken = (encryptedToken: string): string => {
-  const parts = encryptedToken.split(":");
-  const iv = Buffer.from(parts[0], "hex");
-  const encryptedText = parts[1];
-  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(config.encryptSecret), iv);
-  let decrypted = decipher.update(encryptedText, "hex", "utf8");
-  decrypted += decipher.final("utf8");
-  return decrypted;
+  try {
+    const parts = encryptedToken.split(":");
+    const iv = Buffer.from(parts[0], "hex");
+    const encryptedText = parts[1];
+    const tag = Buffer.from(parts[2], "hex");
+    const decipher = crypto.createDecipheriv("aes-256-gcm", Buffer.from(encryptSecret), iv);
+    decipher.setAuthTag(tag);
+    let decrypted = decipher.update(encryptedText, "hex", "utf8");
+    decrypted += decipher.final("utf8");
+    return decrypted;
+  } catch (err) {
+    throw new AppError({
+      statusCode: 400,
+      statusText: "Bad Request",
+      message: "Failed to decrypt token: data may be corrupted.",
+    });
+  }
 };
 
-const userSchema = new Schema<IUserDocument>({
+const userSchema = new Schema<UserDocument>({
   reddit_id: {
     type: String,
     required: true,
@@ -77,6 +104,6 @@ userSchema.methods.decryptRefreshToken = function (): string {
   return decryptToken(this.refresh_token);
 };
 
-const User = mongoose.model<IUserDocument>("User", userSchema);
+const User = mongoose.model<UserDocument>("User", userSchema);
 
 export default User;

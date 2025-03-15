@@ -1,5 +1,5 @@
 import validatePost from "@/helpers/validatePost.helper.js";
-import { IUserDocument } from "@/models/User.model.js";
+import { UserDocument } from "@/models/User.model.js";
 import { Comment } from "@/types/Comment.type.js";
 import { Post } from "@/types/Post.type.js";
 import AppError from "@/utils/AppError.js";
@@ -15,7 +15,7 @@ import {
 } from "@/services/reddit/posts.service.js";
 
 export const createPost = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { subreddit, title, kind, text, url } = req.body;
@@ -28,7 +28,7 @@ export const createPost = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getPopularPosts = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const items: Post[] = await fetchPopularPosts(accessToken);
@@ -45,7 +45,7 @@ export const getPopularPosts = catchAsync(async (req: Request, res: Response) =>
 });
 
 export const getPostsByKeyword = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { q } = req.query;
@@ -72,7 +72,7 @@ export const getPostsByKeyword = catchAsync(async (req: Request, res: Response) 
 });
 
 export const getCommentsForPost = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id } = req.params;
@@ -99,7 +99,7 @@ export const getCommentsForPost = catchAsync(async (req: Request, res: Response)
 });
 
 export const getPostById = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { id } = req.params;

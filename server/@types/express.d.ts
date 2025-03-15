@@ -1,7 +1,7 @@
-import { IUserDocument } from "../src/models/User.model";
+import { UserDocument } from "@/models/User.model.js";
 
 declare global {
   namespace Express {
-    interface User extends IUserDocument {}
+    interface User extends UserDocument {}
   }
 }

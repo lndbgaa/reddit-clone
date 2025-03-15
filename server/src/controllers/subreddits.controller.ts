@@ -1,4 +1,4 @@
-import { IUserDocument } from "@/models/User.model.js";
+import { UserDocument } from "@/models/User.model.js";
 import { Post } from "@/types/Post.type.js";
 import { Subreddit } from "@/types/Subreddit.type.js";
 import AppError from "@/utils/AppError.js";
@@ -13,7 +13,7 @@ import {
 } from "@/services/reddit/subreddits.service.js";
 
 export const getSubredditDetails = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { name } = req.params;
@@ -43,7 +43,7 @@ export const getSubredditDetails = catchAsync(async (req: Request, res: Response
 });
 
 export const getPopularSubreddits = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const items: Subreddit[] = await fetchPopularSubreddits(accessToken);
@@ -60,7 +60,7 @@ export const getPopularSubreddits = catchAsync(async (req: Request, res: Respons
 });
 
 export const subscribeToSubreddit = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { name } = req.params;
@@ -96,7 +96,7 @@ export const subscribeToSubreddit = catchAsync(async (req: Request, res: Respons
 });
 
 export const getSubredditPopularPosts = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user as IUserDocument;
+  const user = req.user as UserDocument;
   const accessToken = user.decryptAccessToken();
 
   const { name } = req.params;
