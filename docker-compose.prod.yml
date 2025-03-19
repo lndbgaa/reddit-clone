@@ -1,0 +1,16 @@
+services:
+  client:
+    build:
+      target: prod
+    env_file:
+      - ./client/.env.production
+  server:
+    build:
+      target: prod
+    env_file:
+      - ./server/.env.production
+    restart: unless-stopped
+  mongo:
+    environment:
+      - MONGO_INITDB_AUTH=true
+    restart: unless-stopped

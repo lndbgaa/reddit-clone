@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env.development";
+const envFile = process.env.NODE_ENV === "production" ? ".env.prod" : ".env.dev";
 dotenv.config({ path: envFile });
 
 import config from "@/config/app.config.js";

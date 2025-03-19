@@ -19,6 +19,7 @@
       "@/utils/*": ["src/utils/*"]
     },
     "strict": true,
+    "sourceMap": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

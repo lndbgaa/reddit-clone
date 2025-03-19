@@ -1,9 +1,14 @@
 {
   "name": "reddit-clone",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:docker": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "dev:docker:detach": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d",
+    "prod:docker": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build",
+    "prod:docker:detach": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d",
+    "debug:docker": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.debug.yml up --build",
+    "debug:docker:detach": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.debug.yml up --build -d"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,31 @@
+services:
+  client:
+    build:
+      target: dev
+    volumes:
+      - type: bind
+        source: ./client
+        target: /usr/src/app
+      - type: volume
+        target: /usr/src/app/node_modules
+    env_file:
+      - ./client/.env.development
+  server:
+    build:
+      target: dev
+    volumes:
+      - type: bind
+        source: ./server
+        target: /usr/src/app
+      - type: volume
+        target: /usr/src/app/node_modules
+    env_file:
+      - ./server/.env.development
+    restart: always
+  mongo:
+    volumes:
+      - db-data:/data/db
+    restart: always
+
+volumes:
+  db-data:

@@ -9,7 +9,7 @@
 - **Frontend**: React, Redux, TypeScript, SCSS
 - **Backend**: Node.js, Express.js, TypeScript
 - **Database** : MongoDB
-- **Containerization**: Docker & Docker Compose
+- **Containerization**: Docker
 - **External API**: [Reddit API](https://business.reddithelp.com/s/article/Create-a-Reddit-Application)
 
 ## Features

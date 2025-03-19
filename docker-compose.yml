@@ -1,43 +1,28 @@
 services:
   client:
+    image: reddit-clone-client:v1.0
     build:
       context: ./client
-    image: reddit-clone-client:v1.0
     container_name: client
     ports:
       - "3000:3000"
     networks:
-      - reddit-app
-    volumes:
-      - ./client:/usr/src/app # for hot loading
-      - /usr/src/app/node_modules
-    env_file:
-      - ./client/.env.development
-    environment:
-      - NODE_ENV=development
+      - front
     depends_on:
       - server
 
   server:
+    image: reddit-clone-server:v1.0
     build:
       context: ./server
-    image: reddit-clone-server:v1.0
     container_name: server
     ports:
       - "8080:8080"
     networks:
-      - reddit-app
-    volumes:
-      - ./server:/usr/src/app # for hot loading
-      - /usr/src/app/node_modules
-    env_file:
-      - ./server/.env.development
-    environment:
-      - NODE_ENV=development
-      - PORT=8080
+      - front
+      - back
     depends_on:
       - mongo
-    restart: always
 
   mongo:
     image: mongo:latest
@@ -45,17 +30,11 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - reddit-app
-    volumes:
-      - db-data:/data/db
+      - back
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-    restart: always
 
 networks:
-  reddit-app:
-    driver: bridge
-volumes:
-  db-data:
-    driver: local
+  front:
+  back:

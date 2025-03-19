@@ -1,4 +1,4 @@
-import AppError from "@/utils/AppError";
+import AppError from "@/utils/AppError.js";
 import crypto from "crypto";
 import mongoose, { Document } from "mongoose";
 
