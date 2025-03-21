@@ -1,3 +1,4 @@
+# FIXME Make debugging with docker work
 services:
   server:
     command:

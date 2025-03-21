@@ -5,8 +5,12 @@ import { AxiosError } from "axios";
 
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
+// FIXME Improve complexity (=refactor)
+
 const errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof AppError) {
+  if (err.code === "EBADCSRFTOKEN") {
+    res.status(403).json({ success: false, statusCode: "Forbidden", message: "Invalid CSRF token" });
+  } else if (err instanceof AppError) {
     const { statusCode, statusText, message, details, stack } = err;
 
     logError({ type: "AppError", statusCode, statusText, message, details, stack });

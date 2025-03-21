@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-const envFile = process.env.NODE_ENV === "production" ? ".env.prod" : ".env.dev";
+const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env.development";
 dotenv.config({ path: envFile });
 
 import config from "@/config/app.config.js";
@@ -27,23 +27,23 @@ checkEnv();
 const app = express();
 const PORT = config.port;
 
-const csrfProtection = csrf({ cookie: true });
-
 connectDB();
 
 app.use(cors(config.corsOptions));
 app.use(helmet());
-app.use(express.json());
+app.use(helmet.contentSecurityPolicy(config.cspOptions));
 app.use(cookieParser());
+app.use(express.json());
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(csrf(config.csrfOptions));
 
 app.get("/", (req, res) => {
   res.json({ status: "Server is up and running!" });
 });
 
-app.get("/api/csrf-token", csrfProtection, (req, res) => {
+app.get("/api/v1/csrf", (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 

@@ -4,6 +4,8 @@ import { Subreddit } from "@/types/Subreddit.type.js";
 import AppError from "@/utils/AppError.js";
 import { isValidUrl } from "@/utils/validators.utils.js";
 
+// FIXME Improve complexity (=refactor)
+
 // Function to validate post data before submission to Reddit
 // Ensures that the required fields are present and meet the subreddit-specific rules
 

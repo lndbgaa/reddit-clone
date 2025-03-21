@@ -9,3 +9,24 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+html,
+body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body,
+input,
+button,
+select,
+textarea {
+  font-family: var(--ff-noto);
+  font-size: var(--fs-base);
+}
+
+body {
+  background-color: var(--clr-bg);
+  line-height: 1.6;
+}

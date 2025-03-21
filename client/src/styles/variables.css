@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --ff-baloo: "Baloo 2", sans-serif;
+  --ff-noto: "Noto Sans", sans-serif;
+
+  --clr-bg: #f5f5f5;
+  --clr-red: #ff3e17;
+  --clr-purple: #695cff;
+  --clr-black: #000000;
+  --clr-white: #ffffff;
+  --clr-border: #c5c8c9;
+  --clr-text: #333d42;
+  --clr-button-bg: #e4eaed;
+
+  --fs-xlarge: 3.2rem;
+  --fs-large: 2.4rem;
+  --fs-medium: 1.8rem;
+  --fs-base: 1.6rem;
+  --fs-small: 1.4rem;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+}
