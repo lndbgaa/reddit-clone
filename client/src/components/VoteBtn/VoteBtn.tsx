@@ -1,69 +1,102 @@
-import DownvoteIcon from "@assets/images/downvote-icon.svg?react";
-import UpvoteIcon from "@assets/images/upvote-icon.svg?react";
+import DownvoteIcon from "@/assets/images/downvote-icon.svg?react";
+import UpvoteIcon from "@/assets/images/upvote-icon.svg?react";
+import { VoteOnContent } from "@/services/api/contentService";
+import { ContentType, VoteDirection, VoteType } from "@/types/content";
+import classNames from "classnames";
 import { useState } from "react";
-import style from "./VoteBtn.module.css";
-
-type VoteType = "liked" | "disliked" | null;
+import styles from "./VoteBtn.module.css";
 
 interface Props {
-  contentType: "post" | "comment";
+  userVote: VoteType;
+  contentType: ContentType;
   contentId: string;
   contentScore: number;
-  userVote: VoteType;
 }
 
-// TODO connect to server data !
+function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
-function VoteBtn({ contentType, contentId, contentScore, userVote }: Props) {
-  const [score, setScore] = useState(contentScore);
+  const [score, setScore] = useState<number>(contentScore);
   const [currentVote, setCurrentVote] = useState<VoteType>(userVote);
 
-  const updateScore = (type: VoteType): number => {
-    if (type === "liked") {
-      return currentVote === "liked" ? score - 1 : currentVote === "disliked" ? score + 2 : score + 1;
-    } else if (type === "disliked") {
-      return currentVote === "disliked" ? score + 1 : currentVote === "liked" ? score - 2 : score - 1;
+  function updateScore(currentVote: VoteType, newVote: VoteType) {
+    if (currentVote === newVote) {
+      // User is retracting their vote
+      return newVote === "liked" ? score - 1 : score + 1;
+    } else {
+      if (currentVote === null) {
+        // First-time vote
+        return newVote === "liked" ? score + 1 : score - 1;
+      } else if (currentVote === "liked") {
+        // Changing from 'liked' to 'disliked
+        return score - 2;
+      } else {
+        // Changing from 'disliked' to 'liked
+        return score + 2;
+      }
     }
-    return score;
+  }
+
+  const handleUpvote = async (): Promise<void> => {
+    if (isLoading) return; // Prevent multiple votes if loading
+
+    setIsLoading(true);
+
+    const voteDirection: VoteDirection = currentVote === "liked" ? "0" : "1"; // "0": remove vote, "1": upvote
+    const response: boolean = await VoteOnContent(contentType, contentId, voteDirection);
+
+    if (response) {
+      setCurrentVote(currentVote === "liked" ? null : "liked");
+      setScore(updateScore(currentVote, "liked"));
+      setError(false);
+    } else {
+      setError(true);
+    }
+
+    setIsLoading(false);
   };
 
-  const handleUpvote = () => {
-    if (currentVote === "liked") {
-      setCurrentVote(null);
+  const handleDownvote = async (): Promise<void> => {
+    if (isLoading) return; // Prevent multiple votes if loading
+
+    setIsLoading(true);
+    const voteDirection: VoteDirection = currentVote === "disliked" ? "0" : "-1"; // "0": remove vote, "1": downvote
+    const response: boolean = await VoteOnContent(contentType, contentId, voteDirection);
+
+    if (response) {
+      setCurrentVote(currentVote === "disliked" ? null : "disliked");
+      setScore(updateScore(currentVote, "disliked"));
+      setError(false);
     } else {
-      setCurrentVote("liked");
+      setError(true);
     }
 
-    const updatedScore = updateScore("liked");
-    setScore(updatedScore);
-  };
-
-  const handleDownvote = () => {
-    if (currentVote === "disliked") {
-      setCurrentVote(null);
-    } else {
-      setCurrentVote("disliked");
-    }
-
-    const updatedScore = updateScore("disliked");
-    setScore(updatedScore);
+    setIsLoading(false);
   };
 
   return (
-    <div className={style.container}>
+    <div
+      className={classNames(styles.container, {
+        [styles.isLoading]: isLoading,
+        [styles.liked]: currentVote === "liked",
+        [styles.disliked]: currentVote === "disliked",
+        [styles.hasError]: error,
+      })}
+    >
       <button
         type="button"
-        className={style.upvote}
+        className={styles.upvoteBtn}
         onClick={handleUpvote}
         aria-label="upvote"
         aria-pressed={currentVote === "liked"}
       >
         <UpvoteIcon width={"16px"} height={"16px"} />
       </button>
-      <span className={style.score}>{score}</span>
+      <span className={styles.score}>{score}</span>
       <button
         type="button"
-        className={style.downvote}
+        className={styles.downvoteBtn}
         onClick={handleDownvote}
         aria-label="downvote"
         aria-pressed={currentVote === "disliked"}

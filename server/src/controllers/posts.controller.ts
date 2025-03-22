@@ -1,7 +1,7 @@
 import validatePost from "@/helpers/validatePost.helper.js";
 import { UserDocument } from "@/models/User.model.js";
-import { Comment } from "@/types/Comment.type.js";
-import { Post } from "@/types/Post.type.js";
+import { Comment } from "@/types/comment.d.js";
+import { Post } from "@/types/post.d.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
 import { Request, Response } from "express";

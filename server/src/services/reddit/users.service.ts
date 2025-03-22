@@ -1,6 +1,6 @@
 import redditConfig from "@/config/reddit.config.js";
 import formatUser, { ApiUserData } from "@/helpers/formatUser.helper.js";
-import { User } from "@/types/User.type.js";
+import { User } from "@/types/user.d.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = redditConfig;

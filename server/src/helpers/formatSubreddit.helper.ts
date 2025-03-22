@@ -1,4 +1,4 @@
-import { Subreddit } from "@/types/Subreddit.type.js";
+import { Subreddit } from "@/types/subreddit.d.js";
 
 export interface ApiSubredditData {
   id: string;

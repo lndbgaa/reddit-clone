@@ -1,9 +1,8 @@
 import redditConfig from "@/config/reddit.config.js";
 import formatComments, { ApiCommentData } from "@/helpers/formatComment.helper.js";
 import formatPost, { ApiPostData } from "@/helpers/formatPost.helper.js";
-import { Comment } from "@/types/Comment.type.js";
-import { CreatePostData } from "@/types/CreatePostData.type.js";
-import { Post } from "@/types/Post.type.js";
+import { Comment } from "@/types/comment.d.js";
+import { CreatePostData, Post } from "@/types/post.d.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = redditConfig;

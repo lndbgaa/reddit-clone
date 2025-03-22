@@ -1,5 +1,5 @@
 import { UserDocument } from "@/models/User.model.js";
-import { User } from "@/types/User.type.js";
+import { User } from "@/types/user.d.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
 import { Request, Response } from "express";

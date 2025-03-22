@@ -1,6 +1,6 @@
 import { UserDocument } from "@/models/User.model.js";
 import { fetchCommentById, submitComment } from "@/services/reddit/comments.service.js";
-import { Comment } from "@/types/Comment.type.js";
+import { Comment } from "@/types/comment.d.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
 import { Request, Response } from "express";

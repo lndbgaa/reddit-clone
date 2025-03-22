@@ -1,8 +1,8 @@
 import redditConfig from "@/config/reddit.config.js";
 import formatPost, { ApiPostData } from "@/helpers/formatPost.helper.js";
 import formatSubreddit, { ApiSubredditData } from "@/helpers/formatSubreddit.helper.js";
-import { Post } from "@/types/Post.type.js";
-import { Subreddit } from "@/types/Subreddit.type.js";
+import { Post } from "@/types/post.d.js";
+import { Subreddit } from "@/types/subreddit.d.js";
 import AppError from "@/utils/AppError.js";
 
 import axios, { AxiosError } from "axios";

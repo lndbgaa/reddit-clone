@@ -1,6 +1,6 @@
 import redditConfig from "@/config/reddit.config.js";
 import formatComment from "@/helpers/formatComment.helper.js";
-import { Comment } from "@/types/Comment.type.js";
+import { Comment } from "@/types/comment.d.js";
 import axios from "axios";
 
 const { baseUrl, userAgent } = redditConfig;

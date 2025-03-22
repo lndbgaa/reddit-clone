@@ -1,9 +1,10 @@
+import { PostType } from "@/types/post";
+
 export type SubType = "public" | "restricted" | "private" | "archived";
-export type LinkType = "any" | "link" | "self";
 
 export interface SubSettings {
   type: SubType;
-  submission_type: LinkType;
+  submission_type: PostType; // Allowed post types in subreddit
   over18: boolean;
   restrict_posting?: boolean;
   restrict_commenting?: boolean;

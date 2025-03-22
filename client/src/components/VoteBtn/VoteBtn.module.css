@@ -1,0 +1,111 @@
+.container {
+  width: auto; /* !!! */
+  height: 3.6rem; /* !!! */
+  display: inline-flex; /* !!! */
+  align-items: center;
+  margin-right: 1.5rem; /* !!! */
+  background-color: rgb(235, 238, 240);
+  border-radius: 2rem;
+}
+
+.container.liked {
+  background-color: var(--clr-red);
+}
+
+.container.disliked {
+  background-color: var(--clr-purple);
+}
+
+.container.liked span.score,
+.container.disliked span.score {
+  color: var(--clr-white);
+}
+
+.upvoteBtn,
+.downvoteBtn {
+  height: 100%;
+  width: 3.6rem; /* !!! */
+  border: none;
+  border-radius: 2rem;
+  background-color: transparent;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upvoteBtn:hover,
+.downvoteBtn:hover {
+  background-color: rgb(225, 230, 232); /* !!! */
+}
+
+.upvoteBtn:hover svg path {
+  stroke: var(--clr-red);
+}
+
+.upvoteBtn:hover svg path:first-of-type {
+  fill: var(--clr-red);
+}
+
+.downvoteBtn:hover svg path {
+  stroke: var(--clr-purple);
+}
+
+.downvoteBtn:hover svg path:first-of-type {
+  fill: var(--clr-purple);
+}
+
+.container.liked .upvoteBtn:hover,
+.container.liked .downvoteBtn:hover {
+  background-color: rgb(173, 43, 0); /* !!! */
+}
+
+.container.disliked .upvoteBtn:hover,
+.container.disliked .downvoteBtn:hover {
+  background-color: rgb(81, 61, 255); /* !!! */
+}
+
+.container.liked .upvoteBtn svg path,
+.container.liked .upvoteBtn:hover svg path {
+  fill: var(--clr-white);
+  stroke: var(--clr-white);
+}
+
+.container.disliked .upvoteBtn svg path {
+  stroke: var(--clr-white);
+}
+
+.container.disliked.upvoteBtn svg path:first-of-type {
+  fill: var(--clr-white);
+}
+
+.container.disliked .upvoteBtn svg path:last-of-type {
+  fill: var(--clr-purple);
+}
+
+.container.disliked .upvoteBtn:hover svg path:last-of-type {
+  fill: rgb(81, 61, 255); /* !!! */
+}
+
+.container.disliked .downvoteBtn svg path,
+.container.disliked .downvoteBtn:hover svg path {
+  stroke: var(--clr-white);
+  fill: var(--clr-white);
+}
+
+.container.liked .downvoteBtn svg path {
+  stroke: var(--clr-white);
+}
+
+.container.liked .downvoteBtn svg path:first-of-type {
+  fill: var(--clr-white);
+}
+
+.container.liked .downvoteBtn svg path:last-of-type {
+  fill: rgb(217, 58, 0); /* !!! */
+}
+
+.container.liked .downvoteBtn:hover svg path:last-of-type {
+  fill: rgb(173, 43, 0); /* !!! */
+}

@@ -1,4 +1,4 @@
-import { User } from "@/types/User.type.js";
+import { User } from "@/types/user.d.js";
 
 export interface ApiUserData {
   name: string;
@@ -25,7 +25,7 @@ export default (user: ApiUserData): User => {
     link_karma,
     comment_karma,
     created,
-    avatar: snoovatar_img || "", // !!!
-    bio: public_description || "",
+    avatar: snoovatar_img ?? "", // !!!
+    bio: public_description ?? "",
   };
 };

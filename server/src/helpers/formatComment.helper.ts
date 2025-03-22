@@ -1,4 +1,4 @@
-import { Comment } from "@/types/Comment.type.js";
+import { Comment } from "@/types/comment.d.js";
 
 export interface ApiCommentData {
   id: string;

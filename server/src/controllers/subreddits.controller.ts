@@ -1,6 +1,6 @@
 import { UserDocument } from "@/models/User.model.js";
-import { Post } from "@/types/Post.type.js";
-import { Subreddit } from "@/types/Subreddit.type.js";
+import { Post } from "@/types/post.d.js";
+import { Subreddit } from "@/types/subreddit.d.js";
 import AppError from "@/utils/AppError.js";
 import catchAsync from "@/utils/catchAsync.utils.js";
 import { Request, Response } from "express";

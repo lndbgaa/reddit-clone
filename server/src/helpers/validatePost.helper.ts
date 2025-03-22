@@ -1,6 +1,6 @@
 import { fetchSubredditDetails } from "@/services/reddit/subreddits.service.js";
-import { CreatePostData } from "@/types/CreatePostData.type.js";
-import { Subreddit } from "@/types/Subreddit.type.js";
+import { CreatePostData } from "@/types/post.d.js";
+import { Subreddit } from "@/types/subreddit.d.js";
 import AppError from "@/utils/AppError.js";
 import { isValidUrl } from "@/utils/validators.utils.js";
 

@@ -29,6 +29,8 @@ const PORT = config.port;
 
 connectDB();
 
+const csrfProtection = csrf(config.csrfOptions);
+
 app.use(cors(config.corsOptions));
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy(config.cspOptions));
@@ -43,7 +45,7 @@ app.get("/", (req, res) => {
   res.json({ status: "Server is up and running!" });
 });
 
-app.get("/api/v1/csrf", (req, res) => {
+app.get("/api/v1/csrf-token", (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 

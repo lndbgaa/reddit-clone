@@ -1,4 +1,4 @@
-import { Post } from "@/types/Post.type.js";
+import { Post } from "@/types/post.d.js";
 import { isValidUrl } from "@/utils/validators.utils.js";
 
 export interface ApiPostData {
@@ -49,7 +49,7 @@ export default (post: ApiPostData): Post => {
     score,
     num_comments,
     content: {
-      type: post_hint || "text",
+      type: post_hint ?? "text",
       is_video: is_video,
       text: selftext,
       url,
