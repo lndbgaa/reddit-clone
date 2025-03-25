@@ -22,11 +22,12 @@ input,
 button,
 select,
 textarea {
+  color: var(--clr-text);
   font-family: var(--ff-noto);
   font-size: var(--fs-base);
 }
 
 body {
-  background-color: var(--clr-bg);
+  background-color: var(--clr-white);
   line-height: 1.6;
 }

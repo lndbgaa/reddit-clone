@@ -1,111 +1,186 @@
 .container {
-  width: auto; /* !!! */
-  height: 3.6rem; /* !!! */
-  display: inline-flex; /* !!! */
+  height: 3.2rem;
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
-  margin-right: 1.5rem; /* !!! */
-  background-color: rgb(235, 238, 240);
   border-radius: 2rem;
 }
 
-.container.liked {
-  background-color: var(--clr-red);
+.container.isLoading {
+  opacity: 0.7;
+  pointer-events: none;
 }
 
-.container.disliked {
-  background-color: var(--clr-purple);
+.container.hasError {
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+  animation: shake 0.3s ease-in-out 1;
 }
 
-.container.liked span.score,
-.container.disliked span.score {
-  color: var(--clr-white);
+.container span.score {
+  font-size: var(--fs-xsmall);
+  font-weight: var(--fw-medium);
+  color: var(--clr-black);
 }
 
-.upvoteBtn,
-.downvoteBtn {
+.container .upvoteBtn,
+.container .downvoteBtn {
   height: 100%;
-  width: 3.6rem; /* !!! */
+  width: 3.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 2rem;
   background-color: transparent;
   cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.upvoteBtn:hover,
-.downvoteBtn:hover {
-  background-color: rgb(225, 230, 232); /* !!! */
+.container .upvoteBtn:disabled,
+.container .downvoteBtn:disabled {
+  cursor: not-allowed;
 }
 
-.upvoteBtn:hover svg path {
-  stroke: var(--clr-red);
+.container .upvoteBtn:hover,
+.container .downvoteBtn:hover {
+  background-color: var(--clr-grey-200);
 }
 
-.upvoteBtn:hover svg path:first-of-type {
-  fill: var(--clr-red);
+/* ------------------ Styles when content is a post ------------------  */
+
+.container.forPost {
+  background-color: var(--clr-grey-100);
 }
 
-.downvoteBtn:hover svg path {
-  stroke: var(--clr-purple);
+.container.forPost.liked {
+  background-color: var(--clr-red-100);
 }
 
-.downvoteBtn:hover svg path:first-of-type {
-  fill: var(--clr-purple);
+.container.forPost.disliked {
+  background-color: var(--clr-purple-100);
 }
 
-.container.liked .upvoteBtn:hover,
-.container.liked .downvoteBtn:hover {
-  background-color: rgb(173, 43, 0); /* !!! */
+.container.forPost.liked span.score,
+.container.forPost.disliked span.score {
+  color: var(--clr-white);
 }
 
-.container.disliked .upvoteBtn:hover,
-.container.disliked .downvoteBtn:hover {
-  background-color: rgb(81, 61, 255); /* !!! */
+.container.forPost .upvoteBtn svg path:first-of-type,
+.container.forPost .downvoteBtn svg path:first-of-type {
+  fill: var(--clr-black);
 }
 
-.container.liked .upvoteBtn svg path,
-.container.liked .upvoteBtn:hover svg path {
+.container.forPost .upvoteBtn svg path:last-of-type,
+.container.forPost .downvoteBtn svg path:last-of-type {
+  fill: var(--clr-grey-100);
+}
+
+.container.forPost.liked .upvoteBtn:hover,
+.container.forPost.liked .downvoteBtn:hover {
+  background-color: var(--clr-red-200);
+}
+
+.container.forPost.disliked .upvoteBtn:hover,
+.container.forPost.disliked .downvoteBtn:hover {
+  background-color: var(--clr-purple-200);
+}
+
+.container.forPost.liked .upvoteBtn svg path,
+.container.forPost.liked .upvoteBtn:hover svg path,
+.container.forPost.disliked .downvoteBtn svg path,
+.container.forPost.disliked .downvoteBtn:hover svg path {
   fill: var(--clr-white);
   stroke: var(--clr-white);
 }
 
-.container.disliked .upvoteBtn svg path {
-  stroke: var(--clr-white);
-}
-
-.container.disliked.upvoteBtn svg path:first-of-type {
+.container.forPost.disliked .upvoteBtn svg path:first-of-type,
+.container.forPost.liked .downvoteBtn svg path:first-of-type {
   fill: var(--clr-white);
 }
 
-.container.disliked .upvoteBtn svg path:last-of-type {
-  fill: var(--clr-purple);
-}
-
-.container.disliked .upvoteBtn:hover svg path:last-of-type {
-  fill: rgb(81, 61, 255); /* !!! */
-}
-
-.container.disliked .downvoteBtn svg path,
-.container.disliked .downvoteBtn:hover svg path {
+.container.forPost.disliked .upvoteBtn svg path {
   stroke: var(--clr-white);
+  fill: var(--clr-purple-100);
+}
+
+.container.forPost.disliked .upvoteBtn:hover svg path:last-of-type {
+  fill: var(--clr-purple-200);
+}
+
+.container.forPost.liked .downvoteBtn svg path {
+  stroke: var(--clr-white);
+  fill: var(--clr-red-100);
+}
+
+.container.forPost.liked .downvoteBtn:hover svg path:last-of-type {
+  fill: var(--clr-red-200);
+}
+
+/* ------------------  Styles when content is a comment ------------------  */
+
+.container.forComment {
+  background-color: transparent;
+}
+
+.container.forComment .upvoteBtn svg path:first-of-type,
+.container.forComment .downvoteBtn svg path:first-of-type {
+  fill: var(--clr-grey-400);
+}
+
+.container.forComment .upvoteBtn svg path:last-of-type,
+.container.forComment .downvoteBtn svg path:last-of-type {
   fill: var(--clr-white);
 }
 
-.container.liked .downvoteBtn svg path {
-  stroke: var(--clr-white);
+.container.forComment .upvoteBtn:hover svg path:last-of-type,
+.container.forComment .downvoteBtn:hover svg path:last-of-type {
+  fill: var(--clr-grey-200);
 }
 
-.container.liked .downvoteBtn svg path:first-of-type {
-  fill: var(--clr-white);
+.container.forComment.liked .upvoteBtn svg path,
+.container.forComment.liked .upvoteBtn:hover svg path {
+  fill: var(--clr-red-100);
+  stroke: var(--clr-red-100);
 }
 
-.container.liked .downvoteBtn svg path:last-of-type {
-  fill: rgb(217, 58, 0); /* !!! */
+.container.forComment.disliked .downvoteBtn svg path,
+.container.forComment.disliked .downvoteBtn:hover svg path {
+  fill: var(--clr-purple-100);
+  stroke: var(--clr-purple-100);
 }
 
-.container.liked .downvoteBtn:hover svg path:last-of-type {
-  fill: rgb(173, 43, 0); /* !!! */
+/* ------------------  Hover styles for both port and comment ------------------  */
+
+.container .upvoteBtn:hover svg path {
+  stroke: var(--clr-red-100);
+}
+
+.container .upvoteBtn:hover svg path:first-of-type {
+  fill: var(--clr-red-100);
+}
+
+.container .downvoteBtn:hover svg path {
+  stroke: var(--clr-purple-100);
+}
+
+.container .downvoteBtn:hover svg path:first-of-type {
+  fill: var(--clr-purple-100);
+}
+
+/* animations */
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
 }

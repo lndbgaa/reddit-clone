@@ -3,7 +3,7 @@ import { ContentType, VoteDirection } from "@/types/content";
 import axios from "axios";
 
 export const VoteOnContent = async (type: ContentType, id: string, voteDirection: VoteDirection) => {
-  const url = `${config.apiUrl}/reddit/${type}/${id}/vote`;
+  const url = `${config.apiUrl}/reddit/${type}s/${id}/vote`;
 
   try {
     await axios.post(
@@ -13,9 +13,10 @@ export const VoteOnContent = async (type: ContentType, id: string, voteDirection
         withCredentials: true,
       }
     );
+
     return true;
   } catch (err) {
-    console.error(err);
+    console.error(err); // !!!
     return false;
   }
 };

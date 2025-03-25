@@ -4,21 +4,36 @@
   --ff-baloo: "Baloo 2", sans-serif;
   --ff-noto: "Noto Sans", sans-serif;
 
-  --clr-bg: #f5f5f5;
-  --clr-red: #ff3e17;
-  --clr-purple: #695cff;
-  --clr-black: #000000;
+  /* Colors */
+
   --clr-white: #ffffff;
+  --clr-black: #000000;
+
+  --clr-red-100: #ff3e17;
+  --clr-red-200: #ad2b00;
+
+  --clr-purple-100: #695cff;
+  --clr-purple-200: #513dff;
+
+  --clr-grey-100: #ebeef0;
+  --clr-grey-200: #e1e6e8;
+  --clr-grey-300: #d3dbde;
+  --clr-grey-400: #5b6b73;
+
+  --clr-text: #0f1a1c;
+  --clr-subtext: #333d42;
   --clr-border: #c5c8c9;
-  --clr-text: #333d42;
-  --clr-button-bg: #e4eaed;
+
+  /* Font Sizes */
 
   --fs-xlarge: 3.2rem;
   --fs-large: 2.4rem;
   --fs-medium: 1.8rem;
   --fs-base: 1.6rem;
   --fs-small: 1.4rem;
+  --fs-xsmall: 1.2rem;
 
+  /* Font Weights */
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-bold: 700;

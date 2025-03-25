@@ -1,4 +1,4 @@
-export type ContentType = "posts" | "comments";
+export type ContentType = "post" | "comment";
 
 export type VoteType = "liked" | "disliked" | null; // null: no vote
 

@@ -3,12 +3,12 @@ import UpvoteIcon from "@/assets/images/upvote-icon.svg?react";
 import { VoteOnContent } from "@/services/api/contentService";
 import { ContentType, VoteDirection, VoteType } from "@/types/content";
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./VoteBtn.module.css";
 
 interface Props {
-  userVote: VoteType;
-  contentType: ContentType;
+  userVote: VoteType; // "liked", "disliked" or null
+  contentType: ContentType; // "post" or "comment"
   contentId: string;
   contentScore: number;
 }
@@ -16,7 +16,6 @@ interface Props {
 function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-
   const [score, setScore] = useState<number>(contentScore);
   const [currentVote, setCurrentVote] = useState<VoteType>(userVote);
 
@@ -61,7 +60,8 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
     if (isLoading) return; // Prevent multiple votes if loading
 
     setIsLoading(true);
-    const voteDirection: VoteDirection = currentVote === "disliked" ? "0" : "-1"; // "0": remove vote, "1": downvote
+
+    const voteDirection: VoteDirection = currentVote === "disliked" ? "0" : "-1"; // "0": remove vote, "-1": downvote
     const response: boolean = await VoteOnContent(contentType, contentId, voteDirection);
 
     if (response) {
@@ -75,9 +75,19 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
     setIsLoading(false);
   };
 
+  // Resets the error state after 500ms to show the "shake" animation briefly.
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   return (
     <div
       className={classNames(styles.container, {
+        [styles.forPost]: contentType === "post",
+        [styles.forComment]: contentType === "comment",
         [styles.isLoading]: isLoading,
         [styles.liked]: currentVote === "liked",
         [styles.disliked]: currentVote === "disliked",
@@ -88,8 +98,10 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
         type="button"
         className={styles.upvoteBtn}
         onClick={handleUpvote}
+        disabled={isLoading}
         aria-label="upvote"
         aria-pressed={currentVote === "liked"}
+        aria-disabled={isLoading}
       >
         <UpvoteIcon width={"16px"} height={"16px"} />
       </button>
@@ -98,8 +110,10 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
         type="button"
         className={styles.downvoteBtn}
         onClick={handleDownvote}
+        disabled={isLoading}
         aria-label="downvote"
         aria-pressed={currentVote === "disliked"}
+        aria-disabled={isLoading}
       >
         <DownvoteIcon width={"16px"} height={"16px"} />
       </button>

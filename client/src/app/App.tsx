@@ -1,4 +1,3 @@
-import VoteBtn from "@/components/VoteBtn/VoteBtn";
 import axios from "axios";
 import { useEffect } from "react";
 import "./App.module.css";
@@ -13,11 +12,7 @@ function App() {
     getCsrfToken();
   }, []);
 
-  return (
-    <div>
-      <VoteBtn userVote={null} contentType="posts" contentId="1jh7n4k" contentScore={435} />
-    </div>
-  );
+  return <div></div>;
 }
 
 export default App;
