@@ -2,7 +2,7 @@ import config from "@/config/appConfig";
 import { ContentType, VoteDirection } from "@/types/content";
 import axios from "axios";
 
-export const VoteOnContent = async (type: ContentType, id: string, voteDirection: VoteDirection) => {
+export const voteOnContent = async (type: ContentType, id: string, voteDirection: VoteDirection) => {
   const url = `${config.apiUrl}/reddit/${type}s/${id}/vote`;
 
   try {
@@ -14,6 +14,45 @@ export const VoteOnContent = async (type: ContentType, id: string, voteDirection
       }
     );
 
+    return true;
+  } catch (err) {
+    console.error(err); // !!!
+    return false;
+  }
+};
+
+export const saveContent = async (type: ContentType, id: string) => {
+  const url = `${config.apiUrl}/reddit/${type}s/${id}/save`;
+
+  try {
+    const response = await axios.post(
+      url,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(response);
+    return true;
+  } catch (err) {
+    console.error(err); // !!!
+    return false;
+  }
+};
+
+export const unsaveContent = async (type: ContentType, id: string) => {
+  const url = `${config.apiUrl}/reddit/${type}s/${id}/unsave`;
+
+  try {
+    const response = await axios.post(
+      url,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    console.log(response);
     return true;
   } catch (err) {
     console.error(err); // !!!

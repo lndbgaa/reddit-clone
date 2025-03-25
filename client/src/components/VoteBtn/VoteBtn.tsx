@@ -1,6 +1,6 @@
 import DownvoteIcon from "@/assets/images/downvote-icon.svg?react";
 import UpvoteIcon from "@/assets/images/upvote-icon.svg?react";
-import { VoteOnContent } from "@/services/api/contentService";
+import { voteOnContent } from "@/services/api/contentService";
 import { ContentType, VoteDirection, VoteType } from "@/types/content";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -43,7 +43,7 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
     setIsLoading(true);
 
     const voteDirection: VoteDirection = currentVote === "liked" ? "0" : "1"; // "0": remove vote, "1": upvote
-    const response: boolean = await VoteOnContent(contentType, contentId, voteDirection);
+    const response: boolean = await voteOnContent(contentType, contentId, voteDirection);
 
     if (response) {
       setCurrentVote(currentVote === "liked" ? null : "liked");
@@ -62,7 +62,7 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
     setIsLoading(true);
 
     const voteDirection: VoteDirection = currentVote === "disliked" ? "0" : "-1"; // "0": remove vote, "-1": downvote
-    const response: boolean = await VoteOnContent(contentType, contentId, voteDirection);
+    const response: boolean = await voteOnContent(contentType, contentId, voteDirection);
 
     if (response) {
       setCurrentVote(currentVote === "disliked" ? null : "disliked");
@@ -100,10 +100,9 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
         onClick={handleUpvote}
         disabled={isLoading}
         aria-label="upvote"
-        aria-pressed={currentVote === "liked"}
         aria-disabled={isLoading}
       >
-        <UpvoteIcon width={"16px"} height={"16px"} />
+        <UpvoteIcon width="16px" height="16px" />
       </button>
       <span className={styles.score}>{score}</span>
       <button
@@ -112,7 +111,6 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
         onClick={handleDownvote}
         disabled={isLoading}
         aria-label="downvote"
-        aria-pressed={currentVote === "disliked"}
         aria-disabled={isLoading}
       >
         <DownvoteIcon width={"16px"} height={"16px"} />

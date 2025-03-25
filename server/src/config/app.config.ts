@@ -8,7 +8,6 @@ interface Config {
   csrfOptions: { cookie: CookieOptions };
   clientUrl: string;
   serverUrl: string;
-  cspOptions: any;
 }
 
 const env = process.env.NODE_ENV ?? "development";
@@ -33,17 +32,6 @@ const config: Config = {
       secure: env === "production",
       sameSite: env === "production" ? "none" : "lax",
       maxAge: 3600000, // FIXME 1h ? too short? too long?
-    },
-  },
-  cspOptions: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'"],
-      imgSrc: ["'self'"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'", "data:"],
-      objectSrc: ["'none'"],
     },
   },
 };

@@ -33,7 +33,19 @@ const csrfProtection = csrf(config.csrfOptions);
 
 app.use(cors(config.corsOptions));
 app.use(helmet());
-app.use(helmet.contentSecurityPolicy(config.cspOptions));
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
+      imgSrc: ["'self'"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "data:"],
+      objectSrc: ["'none'"],
+    },
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(session(sessionConfig));
