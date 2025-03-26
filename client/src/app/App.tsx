@@ -1,4 +1,3 @@
-import SaveBtn from "@/components/SaveBtn/SaveBtn";
 import axios from "axios";
 import { useEffect } from "react";
 import "./App.module.css";
@@ -13,11 +12,7 @@ function App() {
     getCsrfToken();
   }, []);
 
-  return (
-    <div>
-      <SaveBtn userHasSaved={false} contentType="post" contentId="1jjkcwc" />
-    </div>
-  );
+  return <div></div>;
 }
 
 export default App;

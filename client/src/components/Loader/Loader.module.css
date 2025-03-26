@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  width: var(--loader-width, 5rem);
+  height: var(--loader-height, 5rem);
+  margin: auto;
+  display: inline-block;
+  border-radius: 50%;
+  background: linear-gradient(0deg, var(--clr-white) 33%, var(--clr-red-100) 100%);
+  animation: rotation 1s linear infinite;
+}
+
+.container::after {
+  position: absolute;
+  content: "";
+  width: calc(var(--loader-width, 5rem) - 0.5rem);
+  height: calc(var(--loader-height, 5rem) - 0.5rem);
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  background: var(--clr-white);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

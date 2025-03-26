@@ -1,5 +1,31 @@
 .container {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
   border: none;
   background: transparent;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.container:hover {
+  background-color: var(--clr-grey-100);
+}
+
+.container.isLoading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.container.savePostBtn {
+  padding: 0.8rem 1.6rem;
+}
+
+.container.saveCommentBtn {
+  padding: 1.2rem 1.6rem;
+}
+
+.container span {
+  margin-left: 1.2rem;
+  font-size: var(--fs-small);
 }

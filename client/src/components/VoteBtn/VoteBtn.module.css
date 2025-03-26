@@ -48,57 +48,57 @@
 
 /* ------------------ Styles when content is a post ------------------  */
 
-.container.forPost {
+.container.voteForPostBtn {
   background-color: var(--clr-grey-100);
 }
 
-.container.forPost.liked {
+.container.voteForPostBtn.liked {
   background-color: var(--clr-red-100);
 }
 
-.container.forPost.disliked {
+.container.voteForPostBtn.disliked {
   background-color: var(--clr-purple-100);
 }
 
-.container.forPost.liked span.score,
-.container.forPost.disliked span.score {
+.container.voteForPostBtn.liked span.score,
+.container.voteForPostBtn.disliked span.score {
   color: var(--clr-white);
 }
 
-.container.forPost .upvoteBtn svg path:first-of-type,
-.container.forPost .downvoteBtn svg path:first-of-type {
+.container.voteForPostBtn .upvoteBtn svg path:first-of-type,
+.container.voteForPostBtn .downvoteBtn svg path:first-of-type {
   fill: var(--clr-black);
 }
 
-.container.forPost .upvoteBtn svg path:last-of-type,
-.container.forPost .downvoteBtn svg path:last-of-type {
+.container.voteForPostBtn .upvoteBtn svg path:last-of-type,
+.container.voteForPostBtn .downvoteBtn svg path:last-of-type {
   fill: var(--clr-grey-100);
 }
 
-.container.forPost.liked .upvoteBtn:hover,
-.container.forPost.liked .downvoteBtn:hover {
+.container.voteForPostBtn.liked .upvoteBtn:hover,
+.container.voteForPostBtn.liked .downvoteBtn:hover {
   background-color: var(--clr-red-200);
 }
 
-.container.forPost.disliked .upvoteBtn:hover,
-.container.forPost.disliked .downvoteBtn:hover {
+.container.voteForPostBtn.disliked .upvoteBtn:hover,
+.container.voteForPostBtn.disliked .downvoteBtn:hover {
   background-color: var(--clr-purple-200);
 }
 
-.container.forPost.liked .upvoteBtn svg path,
-.container.forPost.liked .upvoteBtn:hover svg path,
-.container.forPost.disliked .downvoteBtn svg path,
-.container.forPost.disliked .downvoteBtn:hover svg path {
+.container.voteForPostBtn.liked .upvoteBtn svg path,
+.container.voteForPostBtn.liked .upvoteBtn:hover svg path,
+.container.voteForPostBtn.disliked .downvoteBtn svg path,
+.container.voteForPostBtn.disliked .downvoteBtn:hover svg path {
   fill: var(--clr-white);
   stroke: var(--clr-white);
 }
 
-.container.forPost.disliked .upvoteBtn svg path:first-of-type,
-.container.forPost.liked .downvoteBtn svg path:first-of-type {
+.container.voteForPostBtn.disliked .upvoteBtn svg path:first-of-type,
+.container.voteForPostBtn.liked .downvoteBtn svg path:first-of-type {
   fill: var(--clr-white);
 }
 
-.container.forPost.disliked .upvoteBtn svg path {
+.container.voteForPostBtn.disliked .upvoteBtn svg path {
   stroke: var(--clr-white);
   fill: var(--clr-purple-100);
 }
@@ -107,44 +107,44 @@
   fill: var(--clr-purple-200);
 }
 
-.container.forPost.liked .downvoteBtn svg path {
+.container.voteForPostBtn.liked .downvoteBtn svg path {
   stroke: var(--clr-white);
   fill: var(--clr-red-100);
 }
 
-.container.forPost.liked .downvoteBtn:hover svg path:last-of-type {
+.container.voteForPostBtn.liked .downvoteBtn:hover svg path:last-of-type {
   fill: var(--clr-red-200);
 }
 
 /* ------------------  Styles when content is a comment ------------------  */
 
-.container.forComment {
+.container.voteForCommentBtn {
   background-color: transparent;
 }
 
-.container.forComment .upvoteBtn svg path:first-of-type,
-.container.forComment .downvoteBtn svg path:first-of-type {
+.container.voteForCommentBtn .upvoteBtn svg path:first-of-type,
+.container.voteForCommentBtn .downvoteBtn svg path:first-of-type {
   fill: var(--clr-grey-400);
 }
 
-.container.forComment .upvoteBtn svg path:last-of-type,
-.container.forComment .downvoteBtn svg path:last-of-type {
+.container.voteForCommentBtn .upvoteBtn svg path:last-of-type,
+.container.voteForCommentBtn .downvoteBtn svg path:last-of-type {
   fill: var(--clr-white);
 }
 
-.container.forComment .upvoteBtn:hover svg path:last-of-type,
-.container.forComment .downvoteBtn:hover svg path:last-of-type {
+.container.voteForCommentBtn .upvoteBtn:hover svg path:last-of-type,
+.container.voteForCommentBtn .downvoteBtn:hover svg path:last-of-type {
   fill: var(--clr-grey-200);
 }
 
-.container.forComment.liked .upvoteBtn svg path,
-.container.forComment.liked .upvoteBtn:hover svg path {
+.container.voteForCommentBtn.liked .upvoteBtn svg path,
+.container.voteForCommentBtn.liked .upvoteBtn:hover svg path {
   fill: var(--clr-red-100);
   stroke: var(--clr-red-100);
 }
 
-.container.forComment.disliked .downvoteBtn svg path,
-.container.forComment.disliked .downvoteBtn:hover svg path {
+.container.voteForCommentBtn.disliked .downvoteBtn svg path,
+.container.voteForCommentBtn.disliked .downvoteBtn:hover svg path {
   fill: var(--clr-purple-100);
   stroke: var(--clr-purple-100);
 }

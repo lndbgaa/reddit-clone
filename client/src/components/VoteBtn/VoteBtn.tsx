@@ -86,11 +86,11 @@ function VoteBtn({ userVote, contentType, contentId, contentScore }: Props) {
   return (
     <div
       className={classNames(styles.container, {
-        [styles.forPost]: contentType === "post",
-        [styles.forComment]: contentType === "comment",
-        [styles.isLoading]: isLoading,
+        [styles.voteForPostBtn]: contentType === "post",
+        [styles.voteForCommentBtn]: contentType === "comment",
         [styles.liked]: currentVote === "liked",
         [styles.disliked]: currentVote === "disliked",
+        [styles.isLoading]: isLoading,
         [styles.hasError]: error,
       })}
     >

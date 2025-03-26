@@ -2,7 +2,8 @@ import SavedIcon from "@/assets/images/saved-icon.svg?react";
 import UnsavedIcon from "@/assets/images/unsaved-icon.svg?react";
 import { saveContent, unsaveContent } from "@/services/api/contentService";
 import { ContentType } from "@/types/content";
-import { useState } from "react";
+import classNames from "classnames";
+import { useEffect, useState } from "react";
 import styles from "./SaveBtn.module.css";
 
 interface Props {
@@ -16,15 +17,18 @@ function SaveBtn({ userHasSaved, contentType, contentId }: Props) {
   const [error, setError] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(userHasSaved);
 
-  const handleSave = async () => {
+  const handleSave = async (action: "save" | "unsave") => {
     if (isLoading) return;
 
     setIsLoading(true);
 
-    const response = await saveContent(contentType, contentId);
+    const response =
+      action === "save"
+        ? await saveContent(contentType, contentId)
+        : await unsaveContent(contentType, contentId);
 
     if (response) {
-      setIsSaved(true);
+      setIsSaved((prev) => !prev);
     } else {
       setError(true);
     }
@@ -32,29 +36,30 @@ function SaveBtn({ userHasSaved, contentType, contentId }: Props) {
     setIsLoading(false);
   };
 
-  const handleUnsave = async () => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    const response = await unsaveContent(contentType, contentId);
-
-    if (response) {
-      setIsSaved(false);
-    } else {
-      setError(true);
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(false), 500);
+      return () => clearTimeout(timer);
     }
+  }, [error]);
 
-    setIsLoading(false);
-  };
+  return (
+    <button
+      type="button"
+      className={classNames(styles.container, {
+        [styles.savePostBtn]: contentType === "post",
+        [styles.saveCommentBtn]: contentType === "comment",
+        [styles.isLoading]: isLoading,
+        [styles.hasError]: error,
+      })}
+      disabled={isLoading}
+      onClick={isSaved ? () => handleSave("unsave") : () => handleSave("save")}
+      aria-label={isSaved ? "unsave" : "save"}
+      aria-disabled={isLoading}
+    >
+      {isSaved ? <SavedIcon width="24px" height="24px" /> : <UnsavedIcon width="24px" height="24px" />}
 
-  return isSaved ? (
-    <button type="button" className={styles.container} aria-label="unsave" onClick={handleUnsave}>
-      <SavedIcon width="24px" height="24px" />
-    </button>
-  ) : (
-    <button type="button" className={styles.container} aria-label="save" onClick={handleSave}>
-      <UnsavedIcon width="24px" height="24px" />
+      <span>{isSaved ? "Remove from saved" : "Save"}</span>
     </button>
   );
 }
